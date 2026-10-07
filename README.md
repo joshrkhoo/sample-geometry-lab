@@ -48,17 +48,6 @@ Turn the direction **b** and watch each point's projection onto it. The chart un
 | **Inside S** | Ch 2 + 3.3 | Spectral decomposition S = PΛP′, S^½ and S^−½, R = D^−½SD^−½, and positive-definiteness tests (eigenvalues, Sylvester) |
 | **Linear combinations** | 3.4 | Drag **b** and **c** to see b′x̄, b′Sb and b′Sc. The slide 28 example is editable and computed two ways, with a shift *a* to show that a constant moves the mean but not the variance, and with Ax̄ and ASA′ |
 
-## Screenshots
-
-| | |
-|---|---|
-| ![Rows vs columns](docs/geometry.png) | ![Generalized variance](docs/spread.png) |
-| ![Inside S](docs/spectral.png) | ![Linear combinations](docs/combos.png) |
-
-Dark mode follows your system setting:
-
-![Dark mode](docs/dark-spectral.png)
-
 ## Key formulas covered
 
 - Mean as a projection: (**y**ᵢ′**1** / **1**′**1**) **1** = x̄ᵢ **1**
