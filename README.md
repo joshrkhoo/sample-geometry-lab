@@ -13,27 +13,27 @@ It's one HTML file with no build step and no install. Open `index.html` in a bro
 ### 3.1 Rows vs columns: the mean is a projection, correlation is an angle
 Drag an observation in the scatter plot (left). The right panel shows the same data as two column vectors in ℝ³. Each **y**ᵢ is projected onto **1**, which gives x̄ᵢ**1**. What's left over is the deviation vector **d**ᵢ, at right angles to **1**. The cosine of the angle between **d**₁ and **d**₂ is r₁₂, and the squared area of the shaded parallelogram is (n−1)²|S|.
 
-![Rows vs columns demo](docs/demo-geometry.gif)
+![Rows vs columns demo](docs/demo-geometry-dark.gif)
 
 ### 3.1 Correlation is the cosine of an angle
 This is AI Exploration-1 from the slides. Two centred vectors in ℝ⁵ are swept from θ = 0° (r = 1) through 90° (r = 0) to 180° (r = −1), and the scatter plot follows. A verification table checks that the coordinates sum to zero and computes r by hand.
 
-![Correlation angle demo](docs/demo-angle.gif)
+![Correlation angle demo](docs/demo-angle-dark.gif)
 
 ### 3.2 x̄ and S are random too
 The app draws repeated samples from N₂(μ, Σ). The sample means bunch up inside the Σ/n contour. The running average of s₁₁ settles on σ₁₁ with divisor n−1, and on (n−1)/n · σ₁₁ with divisor n.
 
-![Random sampling demo](docs/demo-sampling.gif)
+![Random sampling demo](docs/demo-sampling-dark.gif)
 
 ### Ch 2: Inside S (spectral decomposition and square-root matrices)
 A unit circle is turned into the ellipse of **S** one step at a time: rotate by **P**′, stretch by **Λ**^½, then rotate back by **P**. The right panel shows the same 30 observations centred, standardised (**D**^−½, covariance **R**) and whitened (**S**^−½, covariance **I**).
 
-![Spectral decomposition demo](docs/demo-spectral.gif)
+![Spectral decomposition demo](docs/demo-spectral-dark.gif)
 
 ### 3.4 Linear combinations and the Rayleigh quotient
 Turn the direction **b** and watch each point's projection onto it. The chart underneath shows **b**′**S****b** swinging between λ₂ and λ₁, with the maximum at the first eigenvector.
 
-![Linear combinations demo](docs/demo-combos.gif)
+![Linear combinations demo](docs/demo-combos-dark.gif)
 
 ---
 
