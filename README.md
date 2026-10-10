@@ -98,16 +98,81 @@ One observation is dragged across the cloud. Its marginal Q-Q plot still looks f
 
 ## Key formulas covered
 
-- Ch 1: x̄ = (1/n)Σx_j, s_ik, r_ik = s_ik/√(s_ii s_kk), R = D^−½ S D^−½
-- Ch 1 distances: d_E = √((x−y)′(x−y)), d_S = √((x−y)′D⁻¹(x−y)), d_M = √((x−y)′S⁻¹(x−y))
-- Mean as a projection: (**y**ᵢ′**1** / **1**′**1**) **1** = x̄ᵢ **1**
-- Deviation vectors: **d**ᵢ = **y**ᵢ − x̄ᵢ**1**, with **d**ᵢ′**d**ₖ = (n−1) sᵢₖ and cos θᵢₖ = rᵢₖ
-- Sampling: E(X̄) = μ, Cov(X̄) = Σ/n, E(S) = Σ, E(Sₙ) = (n−1)/n · Σ
-- Spread: |S| = λ₁λ₂ = (n−1)⁻ᵖ (volume)², tr(S) = λ₁ + λ₂
-- Ch 2: cos θ = x′y/(LₓL_y), proj = (y′x/x′x)x, Ae = λe, x′Ax with λ₂ ≤ x′Ax/x′x ≤ λ₁, S = PΛP′, S^½ = PΛ^½P′, E(AX+b) = Aμ+b, Cov(AX+b) = AΣA′
-- Linear combinations: ȳ = b′x̄, s²ᵧ = b′Sb, s_yz = b′Sc, ȳ = Ax̄, Sᵧ = ASA′, λ₂ ≤ b′Sb / b′b ≤ λ₁
-- Ch 4: (X−μ)′Σ⁻¹(X−μ) ~ χ²ₚ, X₂ | X₁ = x₁ ~ N(μ₂ + σ₁₂/σ₁₁ (x₁−μ₁), σ₂₂ − σ₁₂²/σ₁₁)
-- Ch 4 checks: Q-Q pairs (Φ⁻¹((j−½)/n), x₍ⱼ₎), r_Q, d²ⱼ = (xⱼ−x̄)′S⁻¹(xⱼ−x̄), Box-Cox x^(λ) and ℓ(λ)
+### Chapter 1: summaries and distances
+
+```math
+\bar{\mathbf x}=\frac1n\sum_{j=1}^n\mathbf x_j,\qquad
+s_{ik}=\frac1n\sum_{j=1}^n(x_{ji}-\bar x_i)(x_{jk}-\bar x_k),\qquad
+r_{ik}=\frac{s_{ik}}{\sqrt{s_{ii}}\sqrt{s_{kk}}},\qquad
+\mathbf R=\mathbf D^{-1/2}\mathbf S\,\mathbf D^{-1/2}
+```
+
+```math
+d_E=\sqrt{(\mathbf x-\mathbf y)'(\mathbf x-\mathbf y)},\qquad
+d_S=\sqrt{(\mathbf x-\mathbf y)'\mathbf D^{-1}(\mathbf x-\mathbf y)},\qquad
+d_M=\sqrt{(\mathbf x-\mathbf y)'\mathbf S^{-1}(\mathbf x-\mathbf y)}
+```
+
+### Chapter 2: matrix algebra and random vectors
+
+```math
+\cos\theta=\frac{\mathbf x'\mathbf y}{\sqrt{\mathbf x'\mathbf x}\,\sqrt{\mathbf y'\mathbf y}},\qquad
+\operatorname{proj}_{\mathbf x}\mathbf y=\frac{\mathbf y'\mathbf x}{\mathbf x'\mathbf x}\,\mathbf x,\qquad
+\mathbf A\mathbf e=\lambda\mathbf e,\qquad
+|\mathbf A-\lambda\mathbf I|=0
+```
+
+```math
+\mathbf A=\mathbf P\boldsymbol\Lambda\mathbf P'=\sum_i\lambda_i\mathbf e_i\mathbf e_i',\qquad
+\mathbf A^{1/2}=\mathbf P\boldsymbol\Lambda^{1/2}\mathbf P',\qquad
+\lambda_{\min}\le\frac{\mathbf x'\mathbf A\mathbf x}{\mathbf x'\mathbf x}\le\lambda_{\max}
+```
+
+```math
+E(\mathbf A\mathbf X+\mathbf b)=\mathbf A\boldsymbol\mu+\mathbf b,\qquad
+\operatorname{Cov}(\mathbf A\mathbf X+\mathbf b)=\mathbf A\boldsymbol\Sigma\mathbf A'
+```
+
+### Chapter 3: sample geometry and random sampling
+
+```math
+\frac{\mathbf y_i'\mathbf 1}{\mathbf 1'\mathbf 1}\,\mathbf 1=\bar x_i\mathbf 1,\qquad
+\mathbf d_i=\mathbf y_i-\bar x_i\mathbf 1,\qquad
+\mathbf d_i'\mathbf d_k=(n-1)\,s_{ik},\qquad
+\cos\theta_{ik}=r_{ik}
+```
+
+```math
+E(\bar{\mathbf X})=\boldsymbol\mu,\qquad
+\operatorname{Cov}(\bar{\mathbf X})=\tfrac1n\boldsymbol\Sigma,\qquad
+E(\mathbf S)=\boldsymbol\Sigma,\qquad
+E(\mathbf S_n)=\tfrac{n-1}{n}\boldsymbol\Sigma
+```
+
+```math
+|\mathbf S|=\lambda_1\lambda_2=\frac{(\text{volume})^2}{(n-1)^p},\qquad
+\operatorname{tr}(\mathbf S)=\lambda_1+\lambda_2,\qquad
+\bar y=\mathbf b'\bar{\mathbf x},\qquad
+s_y^2=\mathbf b'\mathbf S\mathbf b,\qquad
+s_{yz}=\mathbf b'\mathbf S\mathbf c
+```
+
+### Chapter 4: the multivariate normal
+
+```math
+(\mathbf X-\boldsymbol\mu)'\boldsymbol\Sigma^{-1}(\mathbf X-\boldsymbol\mu)\sim\chi^2_p,\qquad
+X_2\mid X_1=x_1\ \sim\ N\!\left(\mu_2+\frac{\sigma_{12}}{\sigma_{11}}(x_1-\mu_1),\ \sigma_{22}-\frac{\sigma_{12}^2}{\sigma_{11}}\right)
+```
+
+```math
+\text{Q-Q pairs }\Big(\Phi^{-1}\big(\tfrac{j-1/2}{n}\big),\,x_{(j)}\Big),\qquad
+d_j^2=(\mathbf x_j-\bar{\mathbf x})'\mathbf S^{-1}(\mathbf x_j-\bar{\mathbf x})
+```
+
+```math
+x^{(\lambda)}=\begin{cases}\dfrac{x^\lambda-1}{\lambda}&\lambda\ne0\\[4pt]\ln x&\lambda=0\end{cases}\qquad
+\ell(\lambda)=-\frac n2\ln\!\Big[\frac1n\sum_{j=1}^n\big(x_j^{(\lambda)}-\overline{x^{(\lambda)}}\big)^2\Big]+(\lambda-1)\sum_{j=1}^n\ln x_j
+```
 
 ## Tech
 
