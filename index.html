@@ -74,6 +74,7 @@ h2{font-family:var(--f-display);font-weight:400;font-size:2rem;line-height:1.15;
 .sw.dot{width:8px;height:8px;border-radius:50%}
 .sw.dash{background:none;border-top:2px dashed currentColor;height:0}
 .below{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:14px;margin-top:14px;align-items:start}
+.below > .card:only-child{max-width:560px}
 .card{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:14px 16px;min-width:0}
 .card h3{font-size:12px;font-family:var(--f-mono);font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
 .card h3 + h3, .card * + h3{margin-top:16px}
@@ -148,11 +149,15 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
   <button role="tab" id="t-data" aria-controls="data" aria-selected="true"><span class="sec ch1">1.2</span>x̄, S and R</button>
   <button role="tab" id="t-distance" aria-controls="distance" aria-selected="false"><span class="sec ch1">1.4</span>Three distances</button>
   <span class="div" aria-hidden="true"></span>
+  <button role="tab" id="t-linalg" aria-controls="linalg" aria-selected="false"><span class="sec ch2">2.1</span>Vectors &amp; matrices</button>
+  <button role="tab" id="t-quadform" aria-controls="quadform" aria-selected="false"><span class="sec ch2">2.2</span>Quadratic forms</button>
+  <button role="tab" id="t-spectral" aria-controls="spectral" aria-selected="false"><span class="sec ch2">2.2</span>Inside S</button>
+  <button role="tab" id="t-affine" aria-controls="affine" aria-selected="false"><span class="sec ch2">2.3</span>Y = AX + b</button>
+  <span class="div" aria-hidden="true"></span>
   <button role="tab" id="t-geometry" aria-controls="geometry" aria-selected="false"><span class="sec">3.1</span>Rows vs columns</button>
   <button role="tab" id="t-angle" aria-controls="angle" aria-selected="false"><span class="sec">3.1</span>Correlation is an angle</button>
   <button role="tab" id="t-sampling" aria-controls="sampling" aria-selected="false"><span class="sec">3.2</span>Random sampling</button>
   <button role="tab" id="t-spread" aria-controls="spread" aria-selected="false"><span class="sec">3.3</span>Generalized variance</button>
-  <button role="tab" id="t-spectral" aria-controls="spectral" aria-selected="false"><span class="sec ch2">Ch 2</span>Inside S</button>
   <button role="tab" id="t-combos" aria-controls="combos" aria-selected="false"><span class="sec">3.4</span>Linear combinations</button>
   <span class="div" aria-hidden="true"></span>
   <button role="tab" id="t-mvn" aria-controls="mvn" aria-selected="false"><span class="sec ch4">4.1</span>Bivariate normal</button>
@@ -197,27 +202,6 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
       <div class="row"><span class="seg" role="group" aria-label="Covariance divisor"><button id="d-div-n" aria-pressed="true">\(\mathbf S_n\): divide by \(n\)</button><button id="d-div-n1" aria-pressed="false">\(\mathbf S\): divide by \(n-1\)</button></span></div>
       <div class="mats" id="d-mats" style="margin-top:14px"></div>
       <p class="hint" id="d-signs" style="margin-top:10px"></p>
-    </div>
-    <div class="card">
-      <h3>Change the units of \(x_1\)</h3>
-      <div class="ctrl"><label for="d-k">\(x_1\times k\)</label><input type="range" id="d-k" min="0.1" max="10" step="0.1" value="10"><output id="d-k-o"></output></div>
-      <div class="scroll"><table class="q">
-        <tr><th>Entry</th><th style="text-align:right">Original</th><th style="text-align:right">\(x_1\times k\)</th><th>Rule</th></tr>
-        <tr><td>\(s_{11}\)</td><td class="num" id="d-u0"></td><td class="num" id="d-v0"></td><td>\(\times k^2\)</td></tr>
-        <tr><td>\(s_{12}\)</td><td class="num" id="d-u1"></td><td class="num" id="d-v1"></td><td>\(\times k\)</td></tr>
-        <tr><td>\(s_{22}\)</td><td class="num" id="d-u2"></td><td class="num" id="d-v2"></td><td>unchanged</td></tr>
-        <tr><td>\(r_{12}\)</td><td class="num" id="d-u3"></td><td class="num" id="d-v3"></td><td>unchanged</td></tr>
-      </table></div>
-      <p class="hint">Covariance carries units, so its size means nothing on its own. Correlation is unit-free.</p>
-    </div>
-    <div class="card">
-      <h3>What \(\bar{\mathbf x}\) and \(\mathbf S\) can't see</h3>
-      <p>AI Exploration 2: the four buttons <b>Elliptical</b>, <b>Curved</b>, <b>Two clusters</b> and <b>One outlier</b> load data sets with the <b>same</b> \(\bar{\mathbf x}\) and \(\mathbf S\) (up to rounding). Check the matrices, then look at the plots.</p>
-      <ul>
-        <li>Covariance only measures <b>linear</b> co-movement. The curved set has a strong relationship that \(r\) understates.</li>
-        <li>Clusters and outliers are invisible in \(\bar{\mathbf x}\) and \(\mathbf S\). Always plot the data.</li>
-        <li>\(s_{12}\) is the average signed rectangle. Blue rectangles push it up and orange ones pull it down.</li>
-      </ul>
     </div>
   </div>
 </section>
@@ -274,14 +258,145 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
       <div class="mats" id="m-mats" style="margin-top:10px"></div>
       <p class="hint" id="m-note" style="margin-top:8px"></p>
     </div>
+  </div>
+</section>
+
+<!-- ================= 2.1 VECTORS AND MATRICES ================= -->
+<section role="tabpanel" id="linalg" aria-labelledby="t-linalg" tabindex="-1" hidden>
+  <h2>Vectors measure, matrices move</h2>
+  <p class="intro">On the left, drag the tips of <span class="c1"><b>x</b></span> and <span class="c2"><b>y</b></span> to see length, inner product, angle and projection. On the right, a matrix \(\mathbf A\) acts on the whole plane. Its determinant is how much it scales area, and its eigenvectors are the directions it doesn't turn.</p>
+  <div class="key">
+    <div class="eq">\[ L_{\mathbf x}=\sqrt{\mathbf x'\mathbf x} \qquad \cos\theta=\frac{\mathbf x'\mathbf y}{L_{\mathbf x}L_{\mathbf y}} \qquad \operatorname{proj}_{\mathbf x}\mathbf y=\frac{\mathbf y'\mathbf x}{\mathbf x'\mathbf x}\,\mathbf x \qquad \mathbf A\mathbf e=\lambda\mathbf e \qquad |\mathbf A-\lambda\mathbf I|=0 \qquad \mathbf A^{-1}\text{ exists}\iff|\mathbf A|\ne0 \]</div>
+    <div class="from">These are the tools the Chapter 3 geometry is built on: the mean as a projection, correlation as \(\cos\theta\), and \(|\mathbf S|\) as a squared volume.</div>
+  </div>
+  <div class="figs">
+    <figure class="fig">
+      <canvas id="cv-vec" aria-label="Two draggable vectors with the projection of y onto x"></canvas>
+      <figcaption class="legend">
+        <span class="c1"><i class="sw"></i>\(\mathbf x\) (drag the tip)</span>
+        <span class="c2"><i class="sw"></i>\(\mathbf y\) (drag the tip)</span>
+        <span class="ca"><i class="sw"></i>\(\operatorname{proj}_{\mathbf x}\mathbf y\)</span>
+      </figcaption>
+    </figure>
+    <figure class="fig">
+      <canvas id="cv-map" aria-label="The plane transformed by the matrix A"></canvas>
+      <figcaption>
+        <div class="ctrl" style="grid-template-columns:5.5rem 1fr auto;margin:0"><label for="la-t">\(\mathbf I\to\mathbf A\)</label><input type="range" id="la-t" min="0" max="1" step="0.01" value="1"><button class="btn" id="la-play" style="padding:2px 10px">Play</button></div>
+        <div class="legend" style="margin-top:4px"><span class="c1"><i class="sw"></i>\(\mathbf A\mathbf e_1\) (column 1)</span><span class="c2"><i class="sw"></i>\(\mathbf A\mathbf e_2\) (column 2)</span><span class="ca"><i class="sw"></i>image of the unit square, area \(|\det\mathbf A|\)</span><span class="co"><i class="sw dash"></i>eigenvector lines</span></div>
+      </figcaption>
+    </figure>
+  </div>
+  <div class="below">
     <div class="card">
-      <h3>AI Exploration 3: which distance is meaningful?</h3>
-      <ul>
-        <li><b>Change units</b> with \(k\): \(d_E\) changes, but \(d_S\) and \(d_M\) don't. A ruler that depends on the choice of units can't be trusted.</li>
-        <li><b>Along vs across:</b> the two buttons put \(P\) at the same Euclidean distance. Across the cloud, \(d_M\) is much bigger. That point is far more unusual.</li>
-        <li><b>Lecture example:</b> \(\mathbf S=\operatorname{diag}(4,1)\), \(P=(2,1)\). Then \(d_E=\sqrt5\) and \(d_M=\sqrt{4/4+1}=\sqrt2\).</li>
-        <li>Push \(r\) toward \(\pm1\). \(\mathbf S\) nears singular and \(d_M\) across the cloud explodes. The formula needs \(\mathbf S^{-1}\).</li>
-      </ul>
+      <h3>The two vectors</h3>
+      <div class="checks"><label><input type="checkbox" id="la-snap" checked> snap to a 0.5 grid (easy to check by hand)</label></div>
+      <div class="scroll"><table class="q">
+        <tr><th>Quantity</th><th style="text-align:right">Value</th></tr>
+        <tr><td>\(\mathbf x,\ \mathbf y\)</td><td class="num" id="la-xy"></td></tr>
+        <tr><td>lengths \(L_{\mathbf x},\ L_{\mathbf y}\)</td><td class="num" id="la-len"></td></tr>
+        <tr><td>inner product \(\mathbf x'\mathbf y\)</td><td class="num" id="la-ip"></td></tr>
+        <tr><td>\(\cos\theta\) and \(\theta\)</td><td class="num" id="la-cos"></td></tr>
+        <tr><td>\(\operatorname{proj}_{\mathbf x}\mathbf y\)</td><td class="num" id="la-proj"></td></tr>
+        <tr><td>dependent?</td><td class="num" id="la-dep"></td></tr>
+      </table></div>
+      <p class="hint">Make \(\mathbf x'\mathbf y=0\) for a right angle. Line the vectors up to make them linearly dependent: \(\mathbf y=c\,\mathbf x\), and \(|\cos\theta|=1\).</p>
+    </div>
+    <div class="card">
+      <h3>The matrix \(\mathbf A\)</h3>
+      <div class="ex-grid" style="grid-template-columns:auto repeat(2,minmax(0,76px))" id="la-grid"></div>
+      <div class="btns" style="margin-top:8px">
+        <button class="btn" data-amat="sym">Symmetric</button>
+        <button class="btn" data-amat="rot">Rotation (orthogonal)</button>
+        <button class="btn" data-amat="shear">Shear</button>
+        <button class="btn" data-amat="sing">Singular</button>
+        <button class="btn" data-amat="flip">Reflection</button>
+      </div>
+      <div class="mats" id="la-mats" style="margin-top:8px"></div>
+    </div>
+    <div class="card">
+      <h3>Read off from the picture</h3>
+      <div class="scroll"><table class="q" id="la-props"></table></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 2.2 QUADRATIC FORMS ================= -->
+<section role="tabpanel" id="quadform" aria-labelledby="t-quadform" tabindex="-1" hidden>
+  <h2>Quadratic forms and positive definiteness</h2>
+  <p class="intro">A symmetric \(\mathbf A\) turns every vector into one number, \(Q(\mathbf x)=\mathbf x'\mathbf A\mathbf x\). The shading shows its sign over the plane and the lines are level sets. If \(\mathbf A\) is positive definite, every level set is an ellipse. Drag the point to evaluate \(Q\).</p>
+  <div class="key">
+    <div class="eq">\[ Q(\mathbf x)=\mathbf x'\mathbf A\mathbf x=a_{11}x_1^2+2a_{12}x_1x_2+a_{22}x_2^2=\lambda_1(\mathbf e_1'\mathbf x)^2+\lambda_2(\mathbf e_2'\mathbf x)^2 \qquad \mathbf A\text{ p.d.}\iff Q(\mathbf x)>0\ \forall\,\mathbf x\ne\mathbf 0\iff\lambda_1,\lambda_2>0 \]</div>
+    <div class="from">Spectral decomposition \(\mathbf A=\lambda_1\mathbf e_1\mathbf e_1'+\lambda_2\mathbf e_2\mathbf e_2'\) rewrites \(Q\) as a weighted sum of squares. The signs of the weights decide everything. Maximisation lemma: on the unit circle, \(\lambda_2\le Q\le\lambda_1\).</div>
+  </div>
+  <div class="figs">
+    <figure class="fig">
+      <canvas id="cv-qf" aria-label="Sign map and level sets of the quadratic form; drag the point"></canvas>
+      <figcaption class="legend">
+        <span class="c1"><i class="sw" style="height:10px;opacity:.5"></i>\(Q>0\)</span>
+        <span class="c2"><i class="sw" style="height:10px;opacity:.5"></i>\(Q<0\)</span>
+        <span class="ca"><i class="sw"></i>\(Q=1\)</span>
+        <span class="co"><i class="sw dash"></i>eigenvector axes</span>
+      </figcaption>
+    </figure>
+    <div class="card">
+      <h3>Choose a symmetric \(\mathbf A\)</h3>
+      <div class="ctrl"><label for="qf-a">\(a_{11}\)</label><input type="range" id="qf-a" min="-3" max="4" step="0.01" value="3"><output id="qf-a-o"></output></div>
+      <div class="ctrl"><label for="qf-b">\(a_{12}\)</label><input type="range" id="qf-b" min="-3" max="3" step="0.01" value="-1.41"><output id="qf-b-o"></output></div>
+      <div class="ctrl"><label for="qf-c">\(a_{22}\)</label><input type="range" id="qf-c" min="-3" max="4" step="0.01" value="2"><output id="qf-c-o"></output></div>
+      <div class="btns">
+        <button class="btn" data-qf="ex">Ex. 2.11: \(3x_1^2+2x_2^2-2\sqrt2x_1x_2\)</button>
+        <button class="btn" data-qf="psd">Semidefinite</button>
+        <button class="btn" data-qf="ind">Indefinite</button>
+        <button class="btn" data-qf="neg">Negative definite</button>
+      </div>
+      <div id="qf-class" style="margin:6px 0"></div>
+      <div class="scroll"><table class="q" id="qf-table"></table></div>
+    </div>
+  </div>
+  <figure class="fig" style="margin-top:14px">
+    <canvas id="cv-qcirc" class="wide" aria-label="Value of the quadratic form around the unit circle"></canvas>
+    <figcaption>\(Q(\mathbf x)\) for unit vectors \(\mathbf x=(\cos\phi,\sin\phi)\). The curve always lies between \(\lambda_2\) and \(\lambda_1\). If it dips below zero, \(\mathbf A\) is not positive definite.</figcaption>
+  </figure>
+</section>
+
+<!-- ================= 2.3 TRANSFORMING A RANDOM VECTOR ================= -->
+<section role="tabpanel" id="affine" aria-labelledby="t-affine" tabindex="-1" hidden>
+  <h2>Transforming a random vector: \(\mathbf Y=\mathbf A\mathbf X+\mathbf b\)</h2>
+  <p class="intro">AI Exploration 1, done live. 400 draws of \(\mathbf X\) are pushed through \(\mathbf A\) and shifted by \(\mathbf b\). The formulas predict the new mean and covariance without any data, and the simulation checks them.</p>
+  <div class="key">
+    <div class="eq">\[ E(\mathbf c'\mathbf X)=\mathbf c'\boldsymbol\mu \qquad \operatorname{Var}(\mathbf c'\mathbf X)=\mathbf c'\boldsymbol\Sigma\mathbf c \qquad E(\mathbf A\mathbf X+\mathbf b)=\mathbf A\boldsymbol\mu+\mathbf b \qquad \operatorname{Cov}(\mathbf A\mathbf X+\mathbf b)=\mathbf A\boldsymbol\Sigma\mathbf A' \]</div>
+    <div class="from">\(\mathbf b\) moves the mean and does nothing to the covariance. If \(\mathbf A\) is rank-deficient, \(\mathbf A\boldsymbol\Sigma\mathbf A'\) is singular and the cloud collapses onto a line. The same rules drive Chapter 3's \(\mathbf b'\bar{\mathbf x}\) and \(\mathbf b'\mathbf S\mathbf b\).</div>
+  </div>
+  <div class="figs">
+    <figure class="fig">
+      <canvas id="cv-ax" aria-label="Cloud of X with its mean and covariance ellipse"></canvas>
+      <figcaption class="legend"><span class="c1"><i class="sw"></i>\(\mathbf X\): ellipse of \(\boldsymbol\Sigma\) around \(\boldsymbol\mu\)</span></figcaption>
+    </figure>
+    <figure class="fig">
+      <canvas id="cv-ay" aria-label="Cloud of Y equals A X plus b with predicted ellipse"></canvas>
+      <figcaption class="legend"><span class="c2"><i class="sw"></i>\(\mathbf Y\): predicted ellipse of \(\mathbf A\boldsymbol\Sigma\mathbf A'\) around \(\mathbf A\boldsymbol\mu+\mathbf b\)</span><span class="ca"><b>×</b> sample mean of the 400 \(\mathbf y\)'s</span></figcaption>
+    </figure>
+  </div>
+  <div class="below">
+    <div class="card">
+      <h3>\(\mathbf X\sim(\boldsymbol\mu,\boldsymbol\Sigma)\), \(\boldsymbol\mu=(2,1)'\)</h3>
+      <div class="ctrl"><label for="af-s1">\(\sigma_1\)</label><input type="range" id="af-s1" min="0.3" max="2" step="0.05" value="1.2"><output id="af-s1-o"></output></div>
+      <div class="ctrl"><label for="af-s2">\(\sigma_2\)</label><input type="range" id="af-s2" min="0.3" max="2" step="0.05" value="0.8"><output id="af-s2-o"></output></div>
+      <div class="ctrl"><label for="af-r">\(\rho_{12}\)</label><input type="range" id="af-r" min="-0.95" max="0.95" step="0.05" value="0.5"><output id="af-r-o"></output></div>
+      <h3>\(\mathbf A\) and \(\mathbf b\)</h3>
+      <div class="ex-grid" style="grid-template-columns:auto repeat(3,minmax(0,64px))" id="af-grid"></div>
+      <div class="btns" style="margin-top:8px">
+        <button class="btn" data-af="id">Identity</button>
+        <button class="btn" data-af="zz">Lecture: \(Z_1=X_1-X_2,\ Z_2=X_1+X_2\)</button>
+        <button class="btn" data-af="std">Standardise \(\mathbf V^{-1/2}(\mathbf X-\boldsymbol\mu)\)</button>
+        <button class="btn" data-af="rank">Rank-deficient \(\mathbf A\)</button>
+        <button class="btn" id="af-new">New draws</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Theory vs 400 simulated draws</h3>
+      <div class="scroll"><table class="q" id="af-table"></table></div>
+      <p class="hint" id="af-note"></p>
     </div>
   </div>
 </section>
@@ -346,22 +461,13 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
         <tr><td>\(\text{area}^2\)</td><td>\(k^2\,|\mathbf S|\)</td><td class="num" id="g-area"></td></tr>
       </table></div>
     </div>
-    <div class="card">
-      <h3>What to notice</h3>
-      <ul>
-        <li>Each \(\mathbf d_i\) is <b>perpendicular to \(\mathbf 1\)</b> (see the right-angle marks). Removing the mean removes the \(\mathbf 1\) direction.</li>
-        <li>Long \(\mathbf d_i\) means a large variance. A small angle between them means strong positive correlation.</li>
-        <li>Load <b>Perfectly correlated</b>. The deviation vectors line up, the parallelogram flattens, and \(|\mathbf S|=0\).</li>
-        <li>The divisor only rescales \(\mathbf S\). The angle, and so \(\mathbf R\), doesn't change.</li>
-      </ul>
-    </div>
   </div>
 </section>
 
 <!-- ================= 3.1 ANGLE ================= -->
 <section role="tabpanel" id="angle" aria-labelledby="t-angle" tabindex="-1" hidden>
   <h2>Correlation is the cosine of an angle</h2>
-  <p class="intro">AI Exploration-1, done by hand. \(\mathbf d_1,\mathbf d_2\in\mathbb R^5\) are centred (each sums to zero). Turn the angle and watch the five observations.</p>
+  <p class="intro">AI Exploration-1. \(\mathbf d_1,\mathbf d_2\in\mathbb R^5\) are centred (each sums to zero). Turn the angle and watch the five observations.</p>
   <div class="key">
     <div class="eq">\[ r_{12}=\frac{\mathbf d_1'\mathbf d_2}{\|\mathbf d_1\|\,\|\mathbf d_2\|}=\cos\theta \qquad\text{and}\qquad |\mathbf d_1'\mathbf d_2|\le\|\mathbf d_1\|\,\|\mathbf d_2\| \ \Rightarrow\ -1\le r_{12}\le 1 \]</div>
     <div class="from">Uses <b>Ch 2</b>: the Cauchy–Schwarz inequality \((\mathbf a'\mathbf b)^2\le(\mathbf a'\mathbf a)(\mathbf b'\mathbf b)\), with equality only when one vector is a multiple of the other (\(r=\pm1\)).</div>
@@ -387,18 +493,6 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
         <button class="btn" data-theta="180">θ = 180°</button>
         <button class="btn" id="a-new">New random vectors</button>
       </div>
-      <h3>The three cases</h3>
-      <div class="cases">
-        <span class="num">θ = 0°</span><span class="num">r = 1</span><span>Same direction. Points on a rising line.</span>
-        <span class="num">θ = 90°</span><span class="num">r = 0</span><span>Orthogonal. No linear relationship.</span>
-        <span class="num">θ = 180°</span><span class="num">r = −1</span><span>Opposite directions. Points on a falling line.</span>
-      </div>
-      <p class="hint">Move the length slider: the scatter stretches but r stays put. Correlation measures alignment, not size.</p>
-    </div>
-    <div class="card">
-      <h3>Verification</h3>
-      <div class="scroll"><table class="q" id="a-table"></table></div>
-      <div id="a-check" style="margin-top:8px;font-size:15px"></div>
     </div>
   </div>
 </section>
@@ -454,12 +548,6 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
         <tr><td>spread of \(\bar{\mathbf x}\)</td><td id="s-C"></td><td>\(\boldsymbol\Sigma/n\) = <span id="s-Sign"></span></td></tr>
       </table></div>
     </div>
-    <div class="card">
-      <h3>Why it works</h3>
-      <details open><summary>\(E(\bar{\mathbf X})=\boldsymbol\mu\)</summary><div>\[ E(\bar{\mathbf X})=E\Big(\tfrac1n\sum_{j=1}^n\mathbf X_j\Big)=\tfrac1n\sum_{j=1}^nE(\mathbf X_j)=\tfrac1n\,n\boldsymbol\mu=\boldsymbol\mu \]</div></details>
-      <details><summary>\(\operatorname{Cov}(\bar{\mathbf X})=\boldsymbol\Sigma/n\)</summary><div>\[ \operatorname{Cov}(\bar{\mathbf X})=\tfrac1{n^2}\sum_{j=1}^n\sum_{l=1}^n\operatorname{Cov}(\mathbf X_j,\mathbf X_l)=\tfrac1{n^2}\sum_{j=1}^n\boldsymbol\Sigma=\tfrac1n\boldsymbol\Sigma \]<p class="hint">The rows are independent, so every cross term with \(j\ne l\) is zero.</p></div></details>
-      <details><summary>Why divide by \(n-1\)?</summary><div><p>Deviations are measured from \(\bar{\mathbf x}\), which is fitted to the same data. That makes the sum of squares too small on average:</p>\[ E\Big[\sum_{j}(\mathbf X_j-\bar{\mathbf X})(\mathbf X_j-\bar{\mathbf X})'\Big]=(n-1)\boldsymbol\Sigma \]<p>Dividing by \(n-1\) makes \(\mathbf S\) unbiased.</p></div></details>
-    </div>
   </div>
 </section>
 
@@ -507,29 +595,12 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
       </table></div>
     </div>
   </div>
-  <div class="below">
-    <div class="card">
-      <h3>Reading the numbers</h3>
-      <ul>
-        <li>Bigger variances raise \(|\mathbf S|\). Strong correlation of <i>either sign</i> pulls it toward 0.</li>
-        <li>The three Example 3.8 matrices have the same \(|\mathbf S|\) and the same area but point different ways. \(|\mathbf S|\) alone can't tell positive from negative correlation.</li>
-        <li>\(\operatorname{tr}(\mathbf S)\) ignores correlation entirely. Move \(r\) and it doesn't change.</li>
-        <li>The volume link is the parallelogram in <a href="#geometry" data-goto="geometry">Rows vs columns</a>.</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>The slide questions</h3>
-      <details open><summary>Why is \(|\mathbf S|\ge 0\)?</summary><div><p>\(\mathbf b'\mathbf S\mathbf b\) is the sample variance of the numbers \(\mathbf b'\mathbf x_j\), so it is \(\ge0\) for every \(\mathbf b\). That makes \(\mathbf S\) nonnegative definite (Ch 2), so \(\lambda_1,\lambda_2\ge0\) and \(|\mathbf S|=\lambda_1\lambda_2\ge0\).</p></div></details>
-      <details><summary>Why is \(\operatorname{tr}(\mathbf S)\ge0\)?</summary><div><p>It is a sum of variances \(s_{ii}\ge0\). Equivalently, \(\lambda_1+\lambda_2\ge0\).</p></div></details>
-      <details><summary>When is \(|\mathbf S|=0\)?</summary><div><p>Exactly when the deviation vectors are linearly dependent: one variable is a linear combination of the others, or \(n\le p\). Drag \(r\) to \(\pm1\) and the ellipse collapses to a line.</p></div></details>
-    </div>
-  </div>
 </section>
 
 <!-- ================= CH 2: INSIDE S ================= -->
 <section role="tabpanel" id="spectral" aria-labelledby="t-spectral" tabindex="-1" hidden>
   <h2>Inside \(\mathbf S\): rotate, stretch, rotate back</h2>
-  <p class="intro">This tab brings in Chapter 2. The spectral decomposition shows what \(\mathbf S\) does geometrically. Its square root turns a circle into the ellipse from the previous tab, and its inverse square root turns the data back into a circle.</p>
+  <p class="intro">This tab brings in Chapter 2. The spectral decomposition shows what \(\mathbf S\) does geometrically. Its square root turns a circle into the ellipse from the <a href="#spread" data-goto="spread">Generalized variance</a> tab, and its inverse square root turns the data back into a circle.</p>
   <div class="key">
     <div class="eq">\[ \mathbf S=\mathbf P\boldsymbol\Lambda\mathbf P'=\lambda_1\mathbf e_1\mathbf e_1'+\lambda_2\mathbf e_2\mathbf e_2' \qquad \mathbf S^{1/2}=\mathbf P\boldsymbol\Lambda^{1/2}\mathbf P' \qquad \mathbf S^{-1/2}=\mathbf P\boldsymbol\Lambda^{-1/2}\mathbf P' \qquad \mathbf R=\mathbf D^{-1/2}\mathbf S\,\mathbf D^{-1/2} \]</div>
     <div class="from">From <b>Ch 2</b> (spectral decomposition, square-root matrices, \(\boldsymbol\rho=\mathbf V^{-1/2}\boldsymbol\Sigma\mathbf V^{-1/2}\)) and <b>3.3</b> (\(\mathbf R\) from \(\mathbf S\)). The covariance of \(\mathbf A\mathbf x\) is \(\mathbf A\mathbf S\mathbf A'\) (3.4), and that drives everything below.</div>
@@ -556,22 +627,11 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
       <div class="ctrl"><label for="p-s1">\(\sqrt{s_{11}}\)</label><input type="range" id="p-s1" min="0.4" max="3" step="0.01" value="2.2"><output id="p-s1-o"></output></div>
       <div class="ctrl"><label for="p-s2">\(\sqrt{s_{22}}\)</label><input type="range" id="p-s2" min="0.4" max="3" step="0.01" value="1.2"><output id="p-s2-o"></output></div>
       <div class="ctrl"><label for="p-r">\(r_{12}\)</label><input type="range" id="p-r" min="-0.99" max="0.99" step="0.01" value="0.6"><output id="p-r-o"></output></div>
-      <h3>Positive definite?</h3>
-      <div id="p-pd"></div>
     </div>
     <div class="card">
       <h3>The pieces, live</h3>
       <div class="mats" id="p-mats"></div>
       <p class="hint" style="margin-top:10px" id="p-check"></p>
-    </div>
-    <div class="card">
-      <h3>Why this matters</h3>
-      <ul>
-        <li><b>Eigenvectors</b> \(\mathbf e_1,\mathbf e_2\) are the ellipse's axes. <b>Eigenvalues</b> are the variances along them.</li>
-        <li>If \(\mathbf z\) has covariance \(\mathbf I\), then \(\mathbf S^{1/2}\mathbf z\) has covariance \(\mathbf S^{1/2}\mathbf I\,\mathbf S^{1/2}=\mathbf S\). The Random sampling tab simulates data the same way (with a Cholesky factor, another square root of \(\boldsymbol\Sigma\)).</li>
-        <li>Standardising fixes the scales but keeps the tilt, so its covariance is \(\mathbf R\). Whitening removes the tilt too, and its covariance is \(\mathbf I\).</li>
-        <li>The squared length after whitening, \(\|\mathbf S^{-1/2}(\mathbf x-\bar{\mathbf x})\|^2=(\mathbf x-\bar{\mathbf x})'\mathbf S^{-1}(\mathbf x-\bar{\mathbf x})\), is the statistical distance from the ellipse. It reappears in Chapter 4.</li>
-      </ul>
     </div>
   </div>
 </section>
@@ -616,32 +676,6 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
     <canvas id="cv-ray" class="wide" aria-label="Variance of b-prime-x as the direction of b turns"></canvas>
     <figcaption>As \(\mathbf b\) turns through 180°, \(\mathbf b'\mathbf S\mathbf b\) swings between \(\lambda_2\) and \(\lambda_1\) and never goes outside them. The peak is at \(\mathbf e_1\), the first principal component direction.</figcaption>
   </figure>
-  <div class="below">
-    <div class="card">
-      <h3>Slide 28 example: edit anything</h3>
-      <div class="ex-grid" id="ex-grid"></div>
-      <p class="hint">Rows are observations of \((X_1,X_2,X_3)\). Default: \(Y_b=2X_1+2X_2-X_3\) and \(Y_c=X_1-X_2+3X_3\). The shift \(a\) adds a constant: \(Y_b=\mathbf b'\mathbf X+a\).</p>
-      <div class="mats" id="ex-mats" style="margin-top:8px"></div>
-    </div>
-    <div class="card">
-      <h3>Two routes, same answer</h3>
-      <div class="scroll"><table class="q" id="ex-ytable"></table></div>
-      <div class="scroll" style="margin-top:10px"><table class="q">
-        <tr><th></th><th style="text-align:right">From the y's</th><th>Matrix formula</th><th style="text-align:right">Value</th><th></th></tr>
-        <tr><td>\(\bar y_b\)</td><td class="num" id="x-a0"></td><td>\(\mathbf b'\bar{\mathbf x}+a\)</td><td class="num" id="x-b0"></td><td class="ok" id="x-k0"></td></tr>
-        <tr><td>\(s^2_b\)</td><td class="num" id="x-a1"></td><td>\(\mathbf b'\mathbf S\mathbf b\)</td><td class="num" id="x-b1"></td><td class="ok" id="x-k1"></td></tr>
-        <tr><td>\(\bar y_c\)</td><td class="num" id="x-a2"></td><td>\(\mathbf c'\bar{\mathbf x}\)</td><td class="num" id="x-b2"></td><td class="ok" id="x-k2"></td></tr>
-        <tr><td>\(s^2_c\)</td><td class="num" id="x-a3"></td><td>\(\mathbf c'\mathbf S\mathbf c\)</td><td class="num" id="x-b3"></td><td class="ok" id="x-k3"></td></tr>
-        <tr><td>\(s_{bc}\)</td><td class="num" id="x-a4"></td><td>\(\mathbf b'\mathbf S\mathbf c\)</td><td class="num" id="x-b4"></td><td class="ok" id="x-k4"></td></tr>
-      </table></div>
-      <p class="hint">Change \(a\): the mean moves but the variance doesn't. A shift changes location, not spread (Ch 2: \(\operatorname{Cov}(\mathbf A\mathbf X+\mathbf b)=\mathbf A\boldsymbol\Sigma\mathbf A'\)).</p>
-    </div>
-    <div class="card">
-      <h3>Stack them: \(\mathbf A=\begin{bmatrix}\mathbf b'\\ \mathbf c'\end{bmatrix}\)</h3>
-      <div class="mats" id="ex-A"></div>
-      <p class="hint" style="margin-top:10px">\(\mathbf A\mathbf S\mathbf A'\) holds \(s_b^2\) and \(s_c^2\) on the diagonal and \(s_{bc}\) off it, matching the table. A negative \(s_{bc}\) means the two combinations tend to move in opposite directions.</p>
-    </div>
-  </div>
 </section>
 
 <!-- ================= 4.1 BIVARIATE NORMAL ================= -->
@@ -695,15 +729,6 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
         <tr><td>\(\operatorname{Var}(X_2\mid x_1)=\sigma_{22}(1-\rho^2)\)</td><td class="num" id="n-cv"></td></tr>
       </table></div>
     </div>
-    <div class="card">
-      <h3>What to notice</h3>
-      <ul>
-        <li>Move the slice: the conditional <b>mean</b> slides along the regression line, but the conditional <b>variance</b> stays the same. It doesn't depend on \(x_1\).</li>
-        <li>Conditioning shrinks the variance by the factor \(1-\rho^2\). Knowing \(X_1\) tells you more about \(X_2\) when \(|\rho|\) is large.</li>
-        <li>Set \(\rho=0\): the two curves coincide, so \(X_1\) tells you nothing about \(X_2\). For the normal, zero covariance means independence (Theorem 4.5).</li>
-        <li>About \(1-\alpha\) of the points land inside the ellipse. That is the \(\chi^2_2\) result, and the basis of the chi-square plot in the next tab.</li>
-      </ul>
-    </div>
   </div>
 </section>
 
@@ -750,19 +775,6 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
       <h3>Verdicts</h3>
       <div class="scroll"><table class="q" id="q-verdict"></table></div>
       <p class="hint">Critical points at \(\alpha=0.05\), interpolated in \(n\).</p>
-    </div>
-    <div class="card">
-      <h3>Outlier steps 3 and 4: the five largest \(d_j^2\)</h3>
-      <div class="scroll"><table class="q" id="q-top"></table></div>
-      <p class="hint">A point can have modest \(z\)-scores on each variable yet a huge \(d^2\), if it sits <i>across</i> the cloud. Load <b>Normal + outlier</b> to see one.</p>
-    </div>
-    <div class="card">
-      <h3>Reading the plots</h3>
-      <ul>
-        <li><b>Straight line</b>: consistent with normality. <b>S-shape</b> (steep at both ends): heavy tails. <b>Bow</b>: skewness.</li>
-        <li><b>One point far above the chi-square line</b>: a multivariate outlier. Investigate it, don't just delete it.</li>
-        <li><b>Normal marginals are not enough.</b> In the last data set \(Y=BZ\) with \(B=\pm1\), so both marginal Q-Q plots look perfect. The scatter is an X shape, though, and the chi-square plot bends. So does the Q-Q plot of \(x_1+x_2\), which piles up at zero.</li>
-      </ul>
     </div>
   </div>
 </section>
@@ -815,19 +827,10 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
       <h3>Live numbers</h3>
       <div class="scroll"><table class="q" id="b-table"></table></div>
     </div>
-    <div class="card">
-      <h3>Notes</h3>
-      <ul>
-        <li>The radiation data (microwave ovens, door closed, \(n=42\)) give \(\hat\lambda\approx0.28\). The textbook rounds to \(\lambda=\tfrac14\), which is easier to interpret and almost as good.</li>
-        <li>The simulated sets are built so the answer is known. <b>Log-normal</b> has \(\ln x\) normal, so \(\hat\lambda\approx0\). <b>Squared normal</b> has \(\sqrt x\) normal, so \(\hat\lambda\approx\tfrac12\). <b>Left-skewed</b> has \(x^{1.5}\) normal, so \(\hat\lambda\approx1.5\).</li>
-        <li>\(\ell(\lambda)\) is flat near the top. Any \(\lambda\) close to \(\hat\lambda\) does about as well, so pick a convenient one.</li>
-        <li>Box-Cox needs \(x>0\). For counts, \(\sqrt x\) is the classic choice. For proportions, use \(\operatorname{logit}(\hat p)\). For correlations, use Fisher's \(z\).</li>
-      </ul>
-    </div>
   </div>
 </section>
 
-<footer>Companion to MATH 4424 Chapters 1–4 (Johnson &amp; Wichern, <i>Applied Multivariate Statistical Analysis</i>). Data in the angle, sampling, spread and combination tabs are simulated. The slide 28 example uses the lecture's matrix, and the Box-Cox tab's radiation data are from Johnson &amp; Wichern Example 4.10.</footer>
+<footer>Companion to MATH 4424 Chapters 1–4 (Johnson &amp; Wichern, <i>Applied Multivariate Statistical Analysis</i>). Data in the angle, sampling, spread and combination tabs are simulated. The Box-Cox tab's radiation data are from Johnson &amp; Wichern Example 4.10.</footer>
 </div>
 
 <script>
@@ -1534,40 +1537,8 @@ function turnB(target){ const from=LC.ab; let d=target-from; d=Math.atan2(Math.s
 $('#l-max').addEventListener('click',()=>turnB(eig2(covMat(LC.X)).ang));
 $('#l-min').addEventListener('click',()=>turnB(eig2(covMat(LC.X)).ang+Math.PI/2));
 
-/* worked example (slide 28) */
-const EXS = { X:[[1,2,5],[4,1,6],[4,0,4]], b:[2,2,-1], c:[1,-1,3], a:0 };
-(function buildGrid(){
-  let html='<span></span><span class="h">X₁</span><span class="h">X₂</span><span class="h">X₃</span>';
-  EXS.X.forEach((r,j)=>{ html+=`<span>obs ${j+1}</span>`+r.map((x,k)=>`<input id="ex-x-${j}${k}" type="number" step="any" value="${x}" aria-label="observation ${j+1}, variable ${k+1}">`).join(''); });
-  html+=`<span class="c1"><b>b</b></span>`+EXS.b.map((x,k)=>`<input id="ex-b-${k}" type="number" step="any" value="${x}" aria-label="b component ${k+1}">`).join('');
-  html+=`<span class="c2"><b>c</b></span>`+EXS.c.map((x,k)=>`<input id="ex-c-${k}" type="number" step="any" value="${x}" aria-label="c component ${k+1}">`).join('');
-  html+=`<span>shift <i>a</i></span><input id="ex-a" type="number" step="any" value="0" aria-label="constant shift a"><span></span><span></span>`;
-  $('#ex-grid').innerHTML=html;
-  $('#ex-grid').addEventListener('input',e=>{
-    const id=e.target.id, val=parseFloat(e.target.value); if (!isFinite(val)) return;
-    if (id==='ex-a') EXS.a=val;
-    else if (id.startsWith('ex-x-')) EXS.X[+id[5]][+id[6]]=val;
-    else if (id.startsWith('ex-b-')) EXS.b[+id[5]]=val;
-    else if (id.startsWith('ex-c-')) EXS.c[+id[5]]=val;
-    renderExample();
-  });
-})();
-function renderExample(){
-  const {X,b,c,a}=EXS, m=colMeans(X), S=covMat(X);
-  const yb=X.map(r=>dot(b,r)+a), yc=X.map(r=>dot(c,r));
-  const mean=v=>v.reduce((s,x)=>s+x,0)/v.length;
-  const cv=(p,q)=>{ const mp=mean(p), mq=mean(q); return p.reduce((s,x,i)=>s+(x-mp)*(q[i]-mq),0)/(p.length-1); };
-  set('ex-mats', matHTML('x̄', m.map(x=>[x])) + matHTML('<b>S</b>', S));
-  set('ex-ytable', `<tr><th>obs</th><th style="text-align:right">y<sub>b</sub> = <b>b</b>′<b>x</b> + a</th><th style="text-align:right">y<sub>c</sub> = <b>c</b>′<b>x</b></th></tr>`
-    + X.map((r,j)=>`<tr><td>${j+1}</td><td class="num c1">${fmt(yb[j])}</td><td class="num c2">${fmt(yc[j])}</td></tr>`).join(''));
-  const pairs=[[mean(yb), dot(b,m)+a],[cv(yb,yb), dot(b,matVec(S,b))],[mean(yc), dot(c,m)],[cv(yc,yc), dot(c,matVec(S,c))],[cv(yb,yc), dot(b,matVec(S,c))]];
-  pairs.forEach(([p,q],i)=>{ set('x-a'+i, fmt(p)); set('x-b'+i, fmt(q)); set('x-k'+i, Math.abs(p-q)<1e-8?'✓':''); });
-  const Am=[b,c];
-  set('ex-A', matHTML('<b>A</b>', Am, 0) + matHTML('<b>A</b>x̄', matVec(Am,m).map(x=>[x])) + matHTML('<b>ASA</b>′', matMul(matMul(Am,S),tr_(Am))));
-}
-
 /* =====================================================================
-   shared helpers for Ch 1 and Ch 4 (independent-axis plots, normal quantiles)
+   shared helpers for Ch 1, 2 and 4 (independent-axis plots, normal quantiles)
    ===================================================================== */
 function makeView2(w,h,x0,x1,y0,y1,pad){
   pad = pad || {l:46,r:14,t:30,b:24};
@@ -1708,7 +1679,6 @@ $('#d-div-n').addEventListener('click',()=>setDDiv('n'));
 $('#d-div-n1').addEventListener('click',()=>setDDiv('n-1'));
 $$('[data-dset]').forEach(b=>b.addEventListener('click',()=>loadData(b.dataset.dset)));
 $('#d-rect').addEventListener('change',drawData);
-$('#d-k').addEventListener('input',e=>{ D.k=+e.target.value; drawData(); });
 $('#d-add').addEventListener('click',()=>{ const m=colMeans(D.X); D.X.push([+(m[0]).toFixed(2), +(m[1]).toFixed(2)]); buildDataTable(); drawData(); });
 $('#d-table').addEventListener('input',e=>{
   const mm=/^d-x-(\d+)-(\d)$/.exec(e.target.id); if(!mm) return;
@@ -2015,9 +1985,269 @@ cvLL.addEventListener('pointermove',e=>{ if(B.drag) llMove(e); else cvLL.style.c
 ['pointerup','pointercancel'].forEach(t=>cvLL.addEventListener(t,()=>{ B.drag=false; }));
 
 /* =====================================================================
+   2.1 vectors and matrices
+   ===================================================================== */
+const LA = { x:[3,1], y:[1,2], A:[[2,1],[1,2]], t:1, drag:null, vView:null, playing:false };
+const AMATS = { sym:[[2,1],[1,2]], rot:[[0.87,-0.5],[0.5,0.87]], shear:[[1,1],[0,1]], sing:[[1,2],[0.5,1]], flip:[[1,0],[0,-1]] };
+function eigGen(A){
+  const tr=A[0][0]+A[1][1], d=det(A), disc=tr*tr/4-d;
+  if (disc<-1e-9) return { real:false, re:tr/2, im:Math.sqrt(-disc) };
+  const s=Math.sqrt(Math.max(0,disc)), ls=[tr/2+s,tr/2-s];
+  const vec=lam=>{ let v=[A[0][1], lam-A[0][0]]; if (norm(v)<1e-9) v=[lam-A[1][1], A[1][0]]; if (norm(v)<1e-9) return null; return scl(v,1/norm(v)); };
+  let vs=ls.map(vec);
+  if (!vs[0] && !vs[1]) vs=[[1,0],[0,1]];              // A = λI: every direction is an eigenvector
+  else if (s<1e-9) vs=[vs[0]||vs[1]];                   // repeated eigenvalue, possibly only one direction
+  return { real:true, l:ls, v:vs };
+}
+function drawVec(){
+  const {ctx,w,h}=prep($('#cv-vec')), v=makeView(w,h,0,0,4.6,22); LA.vView=v;
+  drawGrid(ctx,v,w,h,1);
+  const {x,y}=LA, xx=dot(x,x), c=xx>1e-12?dot(y,x)/xx:0, p=scl(x,c), cs=dot(x,y)/(norm(x)*norm(y));
+  // angle arc
+  const a1=Math.atan2(x[1],x[0]), a2=Math.atan2(y[1],y[0]); let da=a2-a1; da=Math.atan2(Math.sin(da),Math.cos(da));
+  if (Math.abs(cs)<0.003){
+    const u=scl(x,0.42/norm(x)), w2=scl(y,0.42/norm(y));
+    ctx.strokeStyle=T.ink; ctx.lineWidth=1.3; ctx.beginPath(); ctx.moveTo(v.X(u[0]),v.Y(u[1])); ctx.lineTo(v.X(u[0]+w2[0]),v.Y(u[1]+w2[1])); ctx.lineTo(v.X(w2[0]),v.Y(w2[1])); ctx.stroke();
+  } else {
+    ctx.strokeStyle=T.ink; ctx.lineWidth=1.3; ctx.beginPath(); ctx.arc(v.X(0),v.Y(0),34,-a1,-(a1+da),da>0); ctx.stroke();
+    const am=a1+da/2; label(ctx,'θ',v.X(0)+50*Math.cos(am),v.Y(0)-50*Math.sin(am),T.ink,F.ital,'center');
+  }
+  // projection
+  dashed(ctx,[[v.X(y[0]),v.Y(y[1])],[v.X(p[0]),v.Y(p[1])]],T.acc,1.3,[4,4]);
+  ctx.strokeStyle=T.acc; ctx.lineWidth=6; ctx.globalAlpha=0.55; ctx.lineCap='round'; ctx.beginPath(); ctx.moveTo(v.X(0),v.Y(0)); ctx.lineTo(v.X(p[0]),v.Y(p[1])); ctx.stroke(); ctx.globalAlpha=1;
+  arrow(ctx,v.X(0),v.Y(0),v.X(x[0]),v.Y(x[1]),T.v1,3,12);
+  arrow(ctx,v.X(0),v.Y(0),v.X(y[0]),v.Y(y[1]),T.v2,3,12);
+  [['x',x,T.v1],['y',y,T.v2]].forEach(([nm,u,col])=>{
+    ctx.beginPath(); ctx.arc(v.X(u[0]),v.Y(u[1]),LA.drag===nm?13:11,0,TAU); ctx.fillStyle=T.panel; ctx.fill(); ctx.strokeStyle=col; ctx.lineWidth=2.6; ctx.stroke();
+    ctx.fillStyle=col; ctx.font='700 14px "Source Sans 3", sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(nm,v.X(u[0]),v.Y(u[1])+0.5);
+  });
+  title(ctx,'Drag the x and y handles');
+  label(ctx,`x′y = ${fmt(dot(x,y))}   θ = ${fmt(Math.acos(Math.max(-1,Math.min(1,cs)))*180/Math.PI,1)}°`, w-12, 17, T.ink, F.num,'right');
+  const L=[norm(x),norm(y)];
+  set('la-xy', `(${fmt(x[0],1)}, ${fmt(x[1],1)}), (${fmt(y[0],1)}, ${fmt(y[1],1)})`);
+  set('la-len', `√${fmt(xx)} = ${fmt(L[0],3)}, √${fmt(dot(y,y))} = ${fmt(L[1],3)}`);
+  set('la-ip', `${fmt(x[0],1)}·${fmt(y[0],1)} + ${fmt(x[1],1)}·${fmt(y[1],1)} = <b>${fmt(dot(x,y))}</b>`);
+  set('la-cos', `${fmt(cs,3)}, θ = ${fmt(Math.acos(Math.max(-1,Math.min(1,cs)))*180/Math.PI,1)}°`);
+  set('la-proj', `(${fmt(dot(y,x))}/${fmt(xx)}) x = (${fmt(p[0])}, ${fmt(p[1])})<span class="eqv">length ${fmt(Math.abs(c)*L[0],3)} = L<sub>y</sub>|cos θ|</span>`);
+  set('la-dep', Math.abs(Math.abs(cs)-1)<1e-9 ? `<span class="pill warn">yes: y = ${fmt(norm(y)/norm(x)*Math.sign(cs))} x</span>` : `<span class="pill good">no: independent</span>`);
+}
+function curA(){ const t=LA.t; return LA.A.map((r,i)=>r.map((a,j)=>(i===j?1-t:0)+t*a)); }
+function drawMap(){
+  const A=curA(), {ctx,w,h}=prep($('#cv-map'));
+  const ext=Math.max(...[[1.6,1.6],[1.6,-1.6],[-1.6,1.6],[-1.6,-1.6]].map(c=>{ const q=matVec(LA.A,c); return Math.max(Math.abs(q[0]),Math.abs(q[1])); }));
+  const v=makeView(w,h,0,0,Math.max(2.6,ext),22);
+  drawGrid(ctx,v,w,h,1);
+  ctx.strokeStyle=T.v1; ctx.globalAlpha=0.2; ctx.lineWidth=1;
+  for (let g=-4; g<=4; g++){
+    [[g,-6],[-6,g]].forEach(()=>{});
+    ctx.beginPath(); let p=matVec(A,[g,-6]); ctx.moveTo(v.X(p[0]),v.Y(p[1])); p=matVec(A,[g,6]); ctx.lineTo(v.X(p[0]),v.Y(p[1])); ctx.stroke();
+    ctx.beginPath(); p=matVec(A,[-6,g]); ctx.moveTo(v.X(p[0]),v.Y(p[1])); p=matVec(A,[6,g]); ctx.lineTo(v.X(p[0]),v.Y(p[1])); ctx.stroke();
+  }
+  ctx.globalAlpha=1;
+  ctx.save(); ctx.setLineDash([3,4]); ctx.strokeStyle=T.muted; ctx.lineWidth=1; ctx.strokeRect(v.X(0),v.Y(1),v.s,v.s); ctx.restore();
+  const c1=[A[0][0],A[1][0]], c2=[A[0][1],A[1][1]], q=add(c1,c2);
+  ctx.beginPath(); ctx.moveTo(v.X(0),v.Y(0)); ctx.lineTo(v.X(c1[0]),v.Y(c1[1])); ctx.lineTo(v.X(q[0]),v.Y(q[1])); ctx.lineTo(v.X(c2[0]),v.Y(c2[1])); ctx.closePath();
+  ctx.fillStyle=T['acc-soft']; ctx.fill(); ctx.strokeStyle=T.acc; ctx.lineWidth=2; ctx.stroke();
+  const e=eigGen(A);
+  if (e.real) e.v.forEach((u,i)=>{
+    const R=v.iX(w)*1.5; dashed(ctx,[[v.X(-R*u[0]),v.Y(-R*u[1])],[v.X(R*u[0]),v.Y(R*u[1])]],T.one,1.3,[6,5]);
+    const lam=e.v.length===2?e.l[i]:e.l[0], s=Math.min(v.iX(w)*0.8, 2.2);
+    label(ctx,`λ = ${fmt(lam)}`, v.X(s*u[0]*(i?-1:1))+6, v.Y(s*u[1]*(i?-1:1))-12, T.one, F.num);
+  });
+  arrow(ctx,v.X(0),v.Y(0),v.X(c1[0]),v.Y(c1[1]),T.v1,3,11);
+  arrow(ctx,v.X(0),v.Y(0),v.X(c2[0]),v.Y(c2[1]),T.v2,3,11);
+  title(ctx, LA.t<1?`Morphing: (1−t)I + tA, t = ${fmt(LA.t)}`:'The plane after applying A');
+  label(ctx,`det = ${fmt(det(A))}`, w-12, 17, T.acc, F.num,'right');
+}
+function laNumbers(){
+  const A=LA.A, e=eigGen(A), d=det(A), tr=A[0][0]+A[1][1];
+  [0,1].forEach(i=>[0,1].forEach(j=>{ const el=document.getElementById(`la-a-${i}${j}`); if (el && document.activeElement!==el) el.value=A[i][j]; }));
+  const AtA=matMul(tr_(A),A), orth=Math.abs(AtA[0][0]-1)<0.02&&Math.abs(AtA[1][1]-1)<0.02&&Math.abs(AtA[0][1])<0.02, sym=Math.abs(A[0][1]-A[1][0])<1e-9;
+  set('la-mats', matHTML('<b>A</b>',A) + (Math.abs(d)>1e-9 ? matHTML('<b>A</b><sup>−1</sup>', [[A[1][1]/d,-A[0][1]/d],[-A[1][0]/d,A[0][0]/d]], 3) : '<span class="pill warn">no inverse: |A| = 0</span>'));
+  const ev = e.real ? e.l.map(x=>fmt(x,3)).join(', ') : `${fmt(e.re,3)} ± ${fmt(e.im,3)}i (complex)`;
+  const evec = e.real ? e.v.map(u=>`(${fmt(u[0],3)}, ${fmt(u[1],3)})`).join(', ') + (e.v.length===1?' (only one direction)':'') : 'none real: every direction turns';
+  set('la-props', `<tr><th>Property</th><th style="text-align:right">Value</th></tr>
+    <tr><td>\\(|\\mathbf A|\\) = area scale</td><td class="num"><b>${fmt(d,3)}</b>${d<-1e-9?'<span class="eqv">negative: orientation flips</span>':''}</td></tr>
+    <tr><td>\\(\\operatorname{tr}\\mathbf A\\)</td><td class="num">${fmt(tr,3)}</td></tr>
+    <tr><td>eigenvalues</td><td class="num">${ev}</td></tr>
+    <tr><td>eigenvectors</td><td class="num">${evec}</td></tr>
+    <tr><td>invertible?</td><td class="num">${Math.abs(d)>1e-9?'<span class="pill good">yes</span>':'<span class="pill warn">no: the plane collapses to a line</span>'}</td></tr>
+    <tr><td>symmetric? orthogonal?</td><td class="num">${sym?'symmetric':'not symmetric'} · ${orth?'orthogonal (A′A = I)':'not orthogonal'}</td></tr>`);
+  if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([$('#la-props')]).catch(()=>{});
+}
+function drawLinalg(){ drawVec(); drawMap(); laNumbers(); }
+(function(){
+  let html='<span></span><span class="h">col 1</span><span class="h">col 2</span>';
+  [0,1].forEach(i=>{ html+=`<span>row ${i+1}</span>`+[0,1].map(j=>`<input id="la-a-${i}${j}" type="number" step="0.1" value="${LA.A[i][j]}" aria-label="A row ${i+1} column ${j+1}">`).join(''); });
+  $('#la-grid').innerHTML=html;
+  $('#la-grid').addEventListener('input',e=>{ const m=/^la-a-(\d)(\d)$/.exec(e.target.id), val=parseFloat(e.target.value); if(!m||!isFinite(val)) return; LA.A[+m[1]][+m[2]]=val; drawMap(); laNumbers(); });
+})();
+$$('[data-amat]').forEach(b=>b.addEventListener('click',()=>{ LA.A=AMATS[b.dataset.amat].map(r=>r.slice()); LA.t=1; $('#la-t').value=1; drawMap(); laNumbers(); }));
+$('#la-t').addEventListener('input',e=>{ LA.t=+e.target.value; drawMap(); });
+$('#la-play').addEventListener('click',()=>{ if (LA.playing) return; LA.playing=true; LA.t=0; tween(2200,t=>{ LA.t=t; $('#la-t').value=t; drawMap(); },()=>{ LA.playing=false; }); });
+$('#la-snap').addEventListener('change',drawVec);
+const cvVec=$('#cv-vec');
+function vecHit(px,py){ const v=LA.vView; for (const nm of ['y','x']){ const u=LA[nm]; if (Math.hypot(v.X(u[0])-px,v.Y(u[1])-py)<20) return nm; } return null; }
+cvVec.addEventListener('pointerdown',e=>{ const [px,py]=ptr(cvVec,e), hnd=vecHit(px,py); if(hnd){ LA.drag=hnd; cvVec.setPointerCapture(e.pointerId); drawVec(); } });
+cvVec.addEventListener('pointermove',e=>{
+  const [px,py]=ptr(cvVec,e), v=LA.vView;
+  if (!LA.drag){ cvVec.style.cursor=vecHit(px,py)?'grab':'default'; return; }
+  let p=[v.iX(px),v.iY(py)]; const lim=v.iX(cvVec.clientWidth-16); p=p.map(t=>Math.max(-lim,Math.min(lim,t)));
+  if ($('#la-snap').checked) p=p.map(t=>Math.round(t*2)/2);
+  if (norm(p)<0.25) return;
+  LA[LA.drag]=p; drawVec();
+});
+['pointerup','pointercancel'].forEach(t=>cvVec.addEventListener(t,()=>{ if(LA.drag){ LA.drag=null; drawVec(); } }));
+
+/* =====================================================================
+   2.2 quadratic forms
+   ===================================================================== */
+const QF = { a:3, b:-1.41, c:2, P:[0.9,0.7], drag:false, view:null };
+const QFSETS = { ex:[3,-Math.SQRT2,2], psd:[1,1,1], ind:[1,2,-1], neg:[-2,0.5,-1] };
+function eigSym(A){ const a=A[0][0], b=A[0][1], d=A[1][1], m=(a+d)/2, q=Math.sqrt(((a-d)/2)**2+b*b); return { l1:m+q, l2:m-q, ang:0.5*Math.atan2(2*b,a-d) }; }
+// marching squares: draws the level set f = lev on a grid over the view
+function contour(ctx, v, w, h, f, lev, N=90){
+  const xs=[...Array(N+1)].map((_,i)=>v.iX(i*w/N)), ys=[...Array(N+1)].map((_,j)=>v.iY(j*h/N));
+  const F=xs.map(x=>ys.map(y=>f([x,y])-lev));
+  ctx.beginPath();
+  for (let i=0;i<N;i++) for (let j=0;j<N;j++){
+    const c=[F[i][j],F[i+1][j],F[i+1][j+1],F[i][j+1]], P=[[i,j],[i+1,j],[i+1,j+1],[i,j+1]], pts=[];
+    for (let k=0;k<4;k++){ const k2=(k+1)%4, a=c[k], b=c[k2]; if ((a<0)!==(b<0)){ const t=a/(a-b); pts.push([(P[k][0]+(P[k2][0]-P[k][0])*t)*w/N, (P[k][1]+(P[k2][1]-P[k][1])*t)*h/N]); } }
+    for (let k=0;k+1<pts.length;k+=2){ ctx.moveTo(pts[k][0],pts[k][1]); ctx.lineTo(pts[k+1][0],pts[k+1][1]); }
+  }
+  ctx.stroke();
+}
+function qfClass(e){
+  const z=1e-3;
+  if (e.l2>z) return ['Positive definite','good'];
+  if (e.l1<-z) return ['Negative definite','warn'];
+  if (e.l2>=-z && e.l1>z) return ['Positive semidefinite (not definite)','warn'];
+  if (e.l1<=z && e.l2<-z) return ['Negative semidefinite','warn'];
+  if (Math.abs(e.l1)<=z && Math.abs(e.l2)<=z) return ['Zero matrix','warn'];
+  return ['Indefinite','warn'];
+}
+function drawQF(){
+  const A=[[QF.a,QF.b],[QF.b,QF.c]], Qf=x=>quad(x,A), e=eigSym(A);
+  ['a','b','c'].forEach(k=>set('qf-'+k+'-o', fmt(QF[k])));
+  const {ctx,w,h}=prep($('#cv-qf')), span=2.3, v=makeView(w,h,0,0,span,22); QF.view=v;
+  const qmax=Math.max(Math.abs(e.l1),Math.abs(e.l2),0.2)*span*span*0.6;
+  const gw=Math.ceil(w/3), gh=Math.ceil(h/3); heatCv.width=gw; heatCv.height=gh;
+  const hc=heatCv.getContext('2d'), img=hc.createImageData(gw,gh), cp=hexRGB(T.v1), cn=hexRGB(T.v2);
+  for (let j=0;j<gh;j++) for (let i=0;i<gw;i++){
+    const q=Qf([v.iX((i+0.5)*w/gw), v.iY((j+0.5)*h/gh)]), col=q>=0?cp:cn, o=(j*gw+i)*4;
+    img.data[o]=col[0]; img.data[o+1]=col[1]; img.data[o+2]=col[2]; img.data[o+3]=Math.round(110*Math.sqrt(Math.min(1,Math.abs(q)/qmax)));
+  }
+  hc.putImageData(img,0,0); ctx.imageSmoothingEnabled=true; ctx.drawImage(heatCv,0,0,w,h);
+  drawGrid(ctx,v,w,h,0.5);
+  ctx.lineWidth=1; ctx.globalAlpha=0.55;
+  [-4,-2,-1,-0.5,0.5,2,4].forEach(L=>{ ctx.strokeStyle=L>0?T.v1:T.v2; contour(ctx,v,w,h,Qf,L); });
+  ctx.globalAlpha=1; ctx.strokeStyle=T.acc; ctx.lineWidth=2.6; contour(ctx,v,w,h,Qf,1,140);
+  [[Math.cos(e.ang),Math.sin(e.ang),'e₁',e.l1],[-Math.sin(e.ang),Math.cos(e.ang),'e₂',e.l2]].forEach(([ux,uy,nm,l])=>{
+    dashed(ctx,[[v.X(-3*ux),v.Y(-3*uy)],[v.X(3*ux),v.Y(3*uy)]],T.one,1.2,[6,5]);
+    label(ctx,`${nm}  λ = ${fmt(l)}`, v.X(1.95*ux)+6, v.Y(1.95*uy)-12, T.one, F.num);
+  });
+  ctx.save(); ctx.setLineDash([2,4]); ctx.strokeStyle=T.muted; ctx.lineWidth=1.2; ctx.beginPath(); ctx.arc(v.X(0),v.Y(0),v.s,0,TAU); ctx.stroke(); ctx.restore();
+  const P=QF.P, qP=Qf(P);
+  arrow(ctx,v.X(0),v.Y(0),v.X(P[0]),v.Y(P[1]),T.ink,1.6,9);
+  ctx.beginPath(); ctx.arc(v.X(P[0]),v.Y(P[1]),QF.drag?9:7.5,0,TAU); ctx.fillStyle=T.panel; ctx.fill(); ctx.strokeStyle=T.ink; ctx.lineWidth=2.4; ctx.stroke();
+  label(ctx,`Q = ${fmt(qP)}`, v.X(P[0])+12, v.Y(P[1])-14, T.ink, F.num);
+  title(ctx,'Sign of Q(x) and its level sets. Drag the point');
+  label(ctx,'dotted: unit circle', w-12, 17, T.muted, F.ttl,'right');
+  const [cls,tone]=qfClass(e);
+  set('qf-class', `<span class="pill ${tone}">${cls}</span>`);
+  const sg=x=>x<0?'−':'+';
+  set('qf-table', `<tr><th>Quantity</th><th style="text-align:right">Value</th></tr>
+    <tr><td>\\(Q(\\mathbf x)\\)</td><td class="num">${fmt(QF.a)}x₁² ${sg(QF.b)} ${fmt(Math.abs(2*QF.b))}x₁x₂ ${sg(QF.c)} ${fmt(Math.abs(QF.c))}x₂²</td></tr>
+    <tr><td>at the point \\((${fmt(P[0])}, ${fmt(P[1])})\\)</td><td class="num"><b>${fmt(qP,3)}</b></td></tr>
+    <tr><td>eigenvalues \\(\\lambda_1,\\lambda_2\\)</td><td class="num">${fmt(e.l1,3)}, ${fmt(e.l2,3)}</td></tr>
+    <tr><td>Sylvester: \\(a_{11},\\ |\\mathbf A|\\)</td><td class="num">${fmt(QF.a,3)}, ${fmt(det(A),3)}</td></tr>`);
+  if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([$('#qf-table')]).catch(()=>{});
+  drawQCirc(A,e);
+}
+function drawQCirc(A,e){
+  const {ctx,w,h}=prep($('#cv-qcirc'));
+  const hi=Math.max(e.l1,0), lo=Math.min(e.l2,0), pad=(hi-lo||1)*0.15;
+  const v=makeView2(w,h,0,180,lo-pad,hi+pad,{l:46,r:16,t:30,b:26});
+  drawAxes2(ctx,v,w,h,'φ (degrees)','Q');
+  clipPlot(ctx,v,w,h);
+  ctx.strokeStyle=T.rule; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(v.pad.l,v.Y(0)); ctx.lineTo(w-v.pad.r,v.Y(0)); ctx.stroke();
+  ctx.save(); ctx.setLineDash([4,4]); ctx.strokeStyle=T.acc; ctx.lineWidth=1.3; [e.l1,e.l2].forEach(l=>{ ctx.beginPath(); ctx.moveTo(v.pad.l,v.Y(l)); ctx.lineTo(w-v.pad.r,v.Y(l)); ctx.stroke(); }); ctx.restore();
+  ctx.beginPath(); for (let i=0;i<=180;i++){ const a=i*Math.PI/180, q=quad([Math.cos(a),Math.sin(a)],A); i?ctx.lineTo(v.X(i),v.Y(q)):ctx.moveTo(v.X(i),v.Y(q)); }
+  ctx.strokeStyle=T.ink; ctx.lineWidth=2.2; ctx.stroke();
+  let ph=Math.atan2(QF.P[1],QF.P[0]); if (ph<0) ph+=Math.PI; if (ph>Math.PI) ph-=Math.PI;
+  const u=[Math.cos(ph),Math.sin(ph)]; dot2(ctx,v.X(ph*180/Math.PI),v.Y(quad(u,A)),6,T.v1);
+  ctx.restore();
+  label(ctx,`λ₁ = ${fmt(e.l1)}`, w-v.pad.r-6, v.Y(e.l1)-11, T.acc, F.num,'right');
+  label(ctx,`λ₂ = ${fmt(e.l2)}`, w-v.pad.r-6, v.Y(e.l2)+12, T.acc, F.num,'right');
+  title(ctx,'Q on the unit circle (blue dot: the direction of your point)');
+}
+function setQF(a,b,c){ Object.assign(QF,{a,b,c}); $('#qf-a').value=a; $('#qf-b').value=b; $('#qf-c').value=c; drawQF(); }
+['a','b','c'].forEach(k=>$('#qf-'+k).addEventListener('input',e=>{ QF[k]=+e.target.value; drawQF(); }));
+$$('[data-qf]').forEach(b=>b.addEventListener('click',()=>setQF(...QFSETS[b.dataset.qf])));
+const cvQf=$('#cv-qf');
+function qfMove(e){ const [px,py]=ptr(cvQf,e), v=QF.view; QF.P=[Math.max(-2.2,Math.min(2.2,v.iX(px))), Math.max(-2.2,Math.min(2.2,v.iY(py)))]; drawQF(); }
+cvQf.addEventListener('pointerdown',e=>{ QF.drag=true; cvQf.setPointerCapture(e.pointerId); qfMove(e); });
+cvQf.addEventListener('pointermove',e=>{ if(QF.drag) qfMove(e); else cvQf.style.cursor='crosshair'; });
+['pointerup','pointercancel'].forEach(t=>cvQf.addEventListener(t,()=>{ if(QF.drag){ QF.drag=false; drawQF(); } }));
+
+/* =====================================================================
+   2.3 transforming a random vector
+   ===================================================================== */
+const AF = { s1:1.2, s2:0.8, r:0.5, mu:[2,1], A:[[1,-1],[1,1]], b:[0,0], seed:5, Z:null };
+function afDraws(){ const r=rng(AF.seed); AF.Z=[...Array(400)].map(()=>[gauss(r),gauss(r)]); }
+function equalView(w,h,pts,c){ let s=0.6; pts.forEach(p=>{ s=Math.max(s,Math.abs(p[0]-c[0]),Math.abs(p[1]-c[1])); }); return makeView(w,h,c[0],c[1],s*1.08,22); }
+function drawAffine(){
+  const Sg=covFromSR(AF.s1,AF.s2,AF.r), L=chol2(Sg), X=AF.Z.map(z=>add(AF.mu,matVec(L,z)));
+  const {A,b,mu}=AF, Y=X.map(x=>add(matVec(A,x),b)), mY=add(matVec(A,mu),b), SY=matMul(matMul(A,Sg),tr_(A));
+  const mS=colMeans(Y), SS=covMat(Y);
+  ['s1','s2','r'].forEach(k=>set('af-'+k+'-o', fmt(AF[k])));
+  [0,1].forEach(i=>{ [0,1].forEach(j=>{ const el=document.getElementById(`af-a-${i}${j}`); if (el && document.activeElement!==el) el.value=+A[i][j].toFixed(3); }); const el=document.getElementById(`af-b-${i}`); if (el && document.activeElement!==el) el.value=+b[i].toFixed(3); });
+  // X
+  let {ctx,w,h}=prep($('#cv-ax')); let v=equalView(w,h,X,mu);
+  drawGrid(ctx,v,w,h);
+  ctx.globalAlpha=0.45; X.forEach(p=>dot2(ctx,v.X(p[0]),v.Y(p[1]),2.2,T.v1)); ctx.globalAlpha=1;
+  ellipsePath(ctx,v,mu,Sg,2); ctx.strokeStyle=T.v1; ctx.lineWidth=2.4; ctx.stroke();
+  cross(ctx,v.X(mu[0]),v.Y(mu[1]),T.ink,6); label(ctx,'μ',v.X(mu[0])+10,v.Y(mu[1])+13,T.ink,F.vec);
+  title(ctx,'X: 400 draws'); label(ctx,`ellipse: 2 SDs of Σ`, w-12, 17, T.v1, F.num,'right');
+  // Y
+  ({ctx,w,h}=prep($('#cv-ay'))); v=equalView(w,h,Y,mY);
+  drawGrid(ctx,v,w,h);
+  ctx.globalAlpha=0.45; Y.forEach(p=>dot2(ctx,v.X(p[0]),v.Y(p[1]),2.2,T.v2)); ctx.globalAlpha=1;
+  ellipsePath(ctx,v,mY,SY,2); ctx.strokeStyle=T.v2; ctx.lineWidth=2.4; ctx.stroke();
+  ctx.beginPath(); ctx.arc(v.X(mY[0]),v.Y(mY[1]),9,0,TAU); ctx.strokeStyle=T.ink; ctx.lineWidth=1.6; ctx.stroke();
+  cross(ctx,v.X(mS[0]),v.Y(mS[1]),T.acc,6);
+  title(ctx,'Y = AX + b'); label(ctx,`ring: Aμ + b`, w-12, 17, T.ink, F.num,'right');
+  const dA=det(A), rank=Math.abs(dA)>1e-9?2:(A.flat().some(x=>Math.abs(x)>1e-9)?1:0);
+  set('af-table', `<tr><th></th><th>Theory</th><th>Simulation</th></tr>
+    <tr><td>mean</td><td>${matHTML('',mY.map(x=>[x]))}</td><td>${matHTML('',mS.map(x=>[x]))}</td></tr>
+    <tr><td>covariance</td><td>${matHTML('',SY)}</td><td>${matHTML('',SS)}</td></tr>
+    <tr><td>\\(|\\mathbf A\\boldsymbol\\Sigma\\mathbf A'|\\)</td><td class="num">${fmt(det(SY),3)}</td><td class="num">${fmt(det(SS),3)}</td></tr>`);
+  set('af-note', rank<2 ? `<span class="pill warn">rank(A) = ${rank}</span> |A| = 0, so |AΣA′| = |A|²|Σ| = 0. Y is stuck on a line, and its covariance is singular but still nonnegative definite.` : `rank(A) = 2, so |AΣA′| = |A|²|Σ| = ${fmt(dA*dA,3)} × ${fmt(det(Sg),3)}. Simulated values wobble around the theory; try New draws.`);
+  const s11=Sg[0][0], s12=Sg[0][1], s22=Sg[1][1];
+  set('af-zz', matHTML('Cov(<b>Z</b>)', [[s11-2*s12+s22, s11-s22],[s11-s22, s11+2*s12+s22]]));
+  if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([$('#af-table')]).catch(()=>{});
+}
+(function(){
+  let html='<span></span><span class="h">A col 1</span><span class="h">A col 2</span><span class="h">b</span>';
+  [0,1].forEach(i=>{ html+=`<span>row ${i+1}</span>`+[0,1].map(j=>`<input id="af-a-${i}${j}" type="number" step="0.1" aria-label="A row ${i+1} column ${j+1}">`).join('')+`<input id="af-b-${i}" type="number" step="0.1" aria-label="b component ${i+1}">`; });
+  $('#af-grid').innerHTML=html;
+  $('#af-grid').addEventListener('input',e=>{ const val=parseFloat(e.target.value); if(!isFinite(val)) return; let m=/^af-a-(\d)(\d)$/.exec(e.target.id); if (m) AF.A[+m[1]][+m[2]]=val; m=/^af-b-(\d)$/.exec(e.target.id); if (m) AF.b[+m[1]]=val; drawAffine(); });
+})();
+function setAF(A,b){ const fa=AF.A.map(r=>r.slice()), fb=AF.b.slice(); tween(700,t=>{ AF.A=fa.map((r,i)=>r.map((x,j)=>x+(A[i][j]-x)*t)); AF.b=fb.map((x,i)=>x+(b[i]-x)*t); drawAffine(); },()=>{ AF.A=A; AF.b=b; drawAffine(); }); }
+$$('[data-af]').forEach(btn=>btn.addEventListener('click',()=>{
+  const k=btn.dataset.af;
+  if (k==='id') setAF([[1,0],[0,1]],[0,0]);
+  else if (k==='zz') setAF([[1,-1],[1,1]],[0,0]);
+  else if (k==='std'){ const A=[[1/AF.s1,0],[0,1/AF.s2]]; setAF(A, scl(matVec(A,AF.mu),-1)); }
+  else setAF([[1,1],[2,2]],[0,0]);
+}));
+['s1','s2','r'].forEach(k=>$('#af-'+k).addEventListener('input',e=>{ AF[k]=+e.target.value; drawAffine(); }));
+$('#af-new').addEventListener('click',()=>{ AF.seed++; afDraws(); drawAffine(); });
+
+/* =====================================================================
    tabs, theme, resize
    ===================================================================== */
-const DRAW = { geometry:()=>{ drawGeometry(); if(cam.spin) spinLoop(); }, angle:drawAngle, sampling:renderSampling, spread:drawSpread, spectral:drawSpectral, combos:()=>{ drawLin(); renderExample(); }, data:drawData, distance:drawDist, mvn:drawMVN, normality:drawNormality, boxcox:drawBoxCox };
+const DRAW = { geometry:()=>{ drawGeometry(); if(cam.spin) spinLoop(); }, angle:drawAngle, sampling:renderSampling, spread:drawSpread, spectral:drawSpectral, combos:drawLin, data:drawData, distance:drawDist, linalg:drawLinalg, quadform:drawQF, affine:drawAffine, mvn:drawMVN, normality:drawNormality, boxcox:drawBoxCox };
 let active='data';
 function show(id){
   if (!DRAW[id]) id='data';
@@ -2036,7 +2266,7 @@ $('.tabs').addEventListener('keydown',e=>{
 $$('[data-goto]').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); show(a.dataset.goto); window.scrollTo({top:0}); }));
 window.addEventListener('hashchange',()=>{ const id=location.hash.slice(1); if (DRAW[id]) show(id); });
 
-readTokens(); basis(); resetSampling(); loadData('lecture'); genQ(); genB();
+readTokens(); basis(); resetSampling(); loadData('lecture'); genQ(); genB(); afDraws();
 setSpin(cam.spin);
 let start='data';
 try{ start = location.hash.slice(1) || localStorage.getItem('sgl-tab') || 'data'; }catch(e){}
@@ -2048,7 +2278,7 @@ new MutationObserver(redraw).observe(document.documentElement,{attributes:true,a
 let rz; new ResizeObserver(()=>{ cancelAnimationFrame(rz); rz=requestAnimationFrame(()=>DRAW[active]()); }).observe($('.wrap'));
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(()=>DRAW[active]());
 // Hooks used by the README demo recorder (harmless otherwise)
-window.SGL = { show, G, A, R3, E, SP, LC, cam, drawSample, DRAW, setSpin, D, M, N, Q, B, loadData, setM, setLam, genQ, genB, drawDist, drawMVN, drawNormality };
+window.SGL = { show, G, A, R3, E, SP, LC, cam, drawSample, DRAW, setSpin, D, M, N, Q, B, loadData, setM, setLam, genQ, genB, drawDist, LA, QF, AF, setQF, setAF, drawLinalg, drawMap, drawQF, drawAffine, drawMVN, drawNormality };
 })();
 </script>
 </body>
