@@ -117,7 +117,7 @@ d_M=\sqrt{(\mathbf x-\mathbf y)'\mathbf S^{-1}(\mathbf x-\mathbf y)}
 
 ```math
 \cos\theta=\frac{\mathbf x'\mathbf y}{\sqrt{\mathbf x'\mathbf x}\,\sqrt{\mathbf y'\mathbf y}},\qquad
-\operatorname{proj}_{\mathbf x}\mathbf y=\frac{\mathbf y'\mathbf x}{\mathbf x'\mathbf x}\,\mathbf x,\qquad
+\mathrm{proj}_{\mathbf x}\mathbf y=\frac{\mathbf y'\mathbf x}{\mathbf x'\mathbf x}\,\mathbf x,\qquad
 \mathbf A\mathbf e=\lambda\mathbf e,\qquad
 |\mathbf A-\lambda\mathbf I|=0
 ```
@@ -130,7 +130,7 @@ d_M=\sqrt{(\mathbf x-\mathbf y)'\mathbf S^{-1}(\mathbf x-\mathbf y)}
 
 ```math
 E(\mathbf A\mathbf X+\mathbf b)=\mathbf A\boldsymbol\mu+\mathbf b,\qquad
-\operatorname{Cov}(\mathbf A\mathbf X+\mathbf b)=\mathbf A\boldsymbol\Sigma\mathbf A'
+\mathrm{Cov}(\mathbf A\mathbf X+\mathbf b)=\mathbf A\boldsymbol\Sigma\mathbf A'
 ```
 
 ### Chapter 3: sample geometry and random sampling
@@ -144,14 +144,14 @@ E(\mathbf A\mathbf X+\mathbf b)=\mathbf A\boldsymbol\mu+\mathbf b,\qquad
 
 ```math
 E(\bar{\mathbf X})=\boldsymbol\mu,\qquad
-\operatorname{Cov}(\bar{\mathbf X})=\tfrac1n\boldsymbol\Sigma,\qquad
+\mathrm{Cov}(\bar{\mathbf X})=\tfrac1n\boldsymbol\Sigma,\qquad
 E(\mathbf S)=\boldsymbol\Sigma,\qquad
 E(\mathbf S_n)=\tfrac{n-1}{n}\boldsymbol\Sigma
 ```
 
 ```math
 |\mathbf S|=\lambda_1\lambda_2=\frac{(\text{volume})^2}{(n-1)^p},\qquad
-\operatorname{tr}(\mathbf S)=\lambda_1+\lambda_2,\qquad
+\mathrm{tr}(\mathbf S)=\lambda_1+\lambda_2,\qquad
 \bar y=\mathbf b'\bar{\mathbf x},\qquad
 s_y^2=\mathbf b'\mathbf S\mathbf b,\qquad
 s_{yz}=\mathbf b'\mathbf S\mathbf c
