@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Interactive visualisations of sample geometry and random sampling (MATH 4424, Chapters 1-4).">
+<meta name="description" content="Interactive visualisations of sample geometry and random sampling (MATH 4424, Chapters 1-5).">
 <title>Sample Geometry Lab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,20 +42,51 @@ window.MathJax = {
 }
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;margin:0}
-.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:28px 64px}
+.wrap{max-width:1440px;margin:0 auto;padding-inline:20px;padding-block:28px 64px}
 .eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 h1{font-family:var(--f-display);font-weight:400;font-size:clamp(2.3rem,5vw,3.4rem);line-height:1.05;margin:.2rem 0 .4rem;text-wrap:balance}
 h1 em{color:var(--acc)}
 .lede{max-width:66ch;color:var(--muted);margin:0}
-.tabs{display:flex;gap:2px;margin:24px 0 22px;overflow-x:auto;border-bottom:1px solid var(--rule);scrollbar-width:thin}
-.tabs button{all:unset;cursor:pointer;padding:10px 13px 11px;white-space:nowrap;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;font-weight:600;font-size:15px}
-.tabs .sec{display:inline-block;font-family:var(--f-mono);font-size:11px;font-weight:400;margin-right:6px;padding:1px 5px;border-radius:4px;background:var(--grid)}
-.tabs .sec.ch2{background:var(--acc-soft);color:var(--acc)}
-.tabs .sec.ch1{background:var(--v1-soft);color:var(--v1)}
-.tabs .sec.ch4{background:var(--v2-soft);color:var(--v2)}
-.tabs .div{flex:0 0 1px;background:var(--rule);margin:9px 4px}
-.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--acc)}
-.tabs button:focus-visible{outline:2px solid var(--acc);outline-offset:-2px;border-radius:4px}
+.shell{display:grid;grid-template-columns:250px minmax(0,1fr);gap:32px;align-items:start;margin-top:24px}
+.side{position:sticky;top:14px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin;padding:2px 4px 8px 0}
+.side-toggle{display:none}
+.find{width:100%;font:inherit;font-size:14px;padding:6px 10px;border:1px solid var(--rule);border-radius:6px;background:var(--panel);color:var(--ink);margin:0 0 8px}
+.find:focus-visible{outline:2px solid var(--acc);outline-offset:0}
+.chap{border-top:1px solid var(--rule);padding:3px 0}
+.chap:first-child{border-top:0}
+.chap-h{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:9px;width:100%;padding:8px 6px;border-radius:6px;font-size:14px;font-weight:600;color:var(--ink);line-height:1.25}
+.chap-h:hover{background:var(--grid)}
+.chap-h .cn{font-family:var(--f-mono);font-size:11px;font-weight:600;padding:2px 6px;border-radius:4px;flex:none}
+.chap-h .chev{margin-left:auto;color:var(--muted);font-size:12px;transition:transform .15s}
+.chap[data-open="true"] .chev{transform:rotate(90deg)}
+.chap-items{display:none;gap:1px;padding:0 0 6px}
+.chap[data-open="true"] .chap-items{display:grid}
+.topic{all:unset;box-sizing:border-box;cursor:pointer;display:flex;gap:9px;align-items:baseline;padding:6px 8px 6px 12px;border-radius:6px;font-size:15px;color:var(--muted);border-left:2px solid transparent;line-height:1.3}
+.topic .sec{font-family:var(--f-mono);font-size:11px;min-width:2.2em;flex:none}
+.topic:hover{background:var(--grid);color:var(--ink)}
+.topic[aria-current="page"]{background:var(--acc-soft);color:var(--ink);font-weight:600;border-left-color:var(--acc)}
+.chap-h:focus-visible,.topic:focus-visible,.side-toggle:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
+.ch1 .cn{background:var(--v1-soft);color:var(--v1)} .ch2 .cn{background:var(--acc-soft);color:var(--acc)} .ch3 .cn{background:var(--grid);color:var(--ink)} .ch4 .cn{background:var(--v2-soft);color:var(--v2)} .ch5 .cn{background:var(--ok-soft);color:var(--ok)}
+.toc-empty{font-size:14px;color:var(--muted);padding:6px}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px}
+.pager button{all:unset;box-sizing:border-box;cursor:pointer;border:1px solid var(--rule);border-radius:10px;padding:10px 14px;background:var(--panel);min-width:0}
+.pager button:hover{border-color:var(--muted)}
+.pager button:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+.pager .dir{display:block;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.pager .nx{text-align:right;grid-column:2}
+.h-ctrls{margin:0 0 12px;gap:8px 12px}
+.seg[hidden]{display:none}
+@media (max-width:900px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:16px;margin-top:16px}
+  .side{top:0;z-index:5;max-height:none;overflow:visible;background:var(--bg);padding:8px 0;border-bottom:1px solid var(--rule)}
+  .side-toggle{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:10px;width:100%;padding:9px 12px;border:1px solid var(--rule);border-radius:8px;background:var(--panel);font-weight:600}
+  .side-toggle .lbl{font-family:var(--f-mono);font-size:11px;font-weight:400;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .side-toggle .cur{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .side-toggle .chev{color:var(--muted)}
+  .toc{display:none;position:absolute;left:0;right:0;top:calc(100% - 2px);background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:10px;max-height:72vh;overflow-y:auto;box-shadow:0 12px 32px rgba(0,0,0,.25)}
+  .side[data-open="true"] .toc{display:block}
+}
+@media (max-width:520px){ .pager{grid-template-columns:1fr} .pager .nx{grid-column:1} }
 h2{font-family:var(--f-display);font-weight:400;font-size:2rem;line-height:1.15;margin:0 0 .35rem;text-wrap:balance}
 .intro{max-width:68ch;margin:0 0 14px;color:var(--muted)}
 .key{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:12px 18px;margin:0 0 16px;display:grid;gap:4px}
@@ -131,7 +162,7 @@ summary:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-rad
 details > div{padding:6px 0 2px;overflow-x:auto}
 .cases{display:grid;grid-template-columns:auto auto 1fr;gap:6px 14px;align-items:baseline;font-size:15px}
 .cases .num{font-size:13px}
-[role=tabpanel]:focus{outline:none}
+.panel:focus{outline:none}
 mjx-container{color:inherit}
 mjx-container[display="true"]{margin:.35em 0!important}
 footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid var(--rule);padding-top:12px}
@@ -140,33 +171,23 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
 <body>
 <div class="wrap">
 <header>
-  <div class="eyebrow">MATH 4424 · Multivariate Analysis · Chapters 1–4</div>
+  <div class="eyebrow">MATH 4424 · Multivariate Analysis · Chapters 1–5</div>
   <h1>Sample Geometry <em>Lab</em></h1>
-  <p class="lede">Drag points, rotate vectors and draw random samples to see what the formulas are doing. The tabs run in course order: Chapter 1 summaries and distances, the Chapter 2 matrix tools, Chapter 3 sample geometry, then the Chapter 4 multivariate normal.</p>
+  <p class="lede">Drag points, rotate vectors and draw random samples to see what the formulas are doing. Pick a topic from the list. Topics follow the course, from Chapter 1 summaries and distances to Chapter 5 tests on a mean vector.</p>
 </header>
 
-<nav class="tabs" role="tablist" aria-label="Sections">
-  <button role="tab" id="t-data" aria-controls="data" aria-selected="true"><span class="sec ch1">1.2</span>x̄, S and R</button>
-  <button role="tab" id="t-distance" aria-controls="distance" aria-selected="false"><span class="sec ch1">1.4</span>Three distances</button>
-  <span class="div" aria-hidden="true"></span>
-  <button role="tab" id="t-linalg" aria-controls="linalg" aria-selected="false"><span class="sec ch2">2.1</span>Vectors &amp; matrices</button>
-  <button role="tab" id="t-quadform" aria-controls="quadform" aria-selected="false"><span class="sec ch2">2.2</span>Quadratic forms</button>
-  <button role="tab" id="t-spectral" aria-controls="spectral" aria-selected="false"><span class="sec ch2">2.2</span>Inside S</button>
-  <button role="tab" id="t-affine" aria-controls="affine" aria-selected="false"><span class="sec ch2">2.3</span>Y = AX + b</button>
-  <span class="div" aria-hidden="true"></span>
-  <button role="tab" id="t-geometry" aria-controls="geometry" aria-selected="false"><span class="sec">3.1</span>Rows vs columns</button>
-  <button role="tab" id="t-angle" aria-controls="angle" aria-selected="false"><span class="sec">3.1</span>Correlation is an angle</button>
-  <button role="tab" id="t-sampling" aria-controls="sampling" aria-selected="false"><span class="sec">3.2</span>Random sampling</button>
-  <button role="tab" id="t-spread" aria-controls="spread" aria-selected="false"><span class="sec">3.3</span>Generalized variance</button>
-  <button role="tab" id="t-combos" aria-controls="combos" aria-selected="false"><span class="sec">3.4</span>Linear combinations</button>
-  <span class="div" aria-hidden="true"></span>
-  <button role="tab" id="t-mvn" aria-controls="mvn" aria-selected="false"><span class="sec ch4">4.1</span>Bivariate normal</button>
-  <button role="tab" id="t-normality" aria-controls="normality" aria-selected="false"><span class="sec ch4">4.4</span>Checking normality</button>
-  <button role="tab" id="t-boxcox" aria-controls="boxcox" aria-selected="false"><span class="sec ch4">4.6</span>Box-Cox</button>
+<div class="shell">
+<nav class="side" aria-label="Topics" data-open="false">
+  <button class="side-toggle" aria-expanded="false" aria-controls="toc"><span class="lbl">Topic</span><span class="cur" id="toc-cur"></span><span class="chev" aria-hidden="true">▾</span></button>
+  <div class="toc" id="toc">
+    <input class="find" id="toc-find" type="search" placeholder="Find a topic…" aria-label="Find a topic" autocomplete="off">
+    <div id="toc-list"></div>
+  </div>
 </nav>
+<main>
 
 <!-- ================= 1.2 DATA MATRIX → x̄, S, R ================= -->
-<section role="tabpanel" id="data" aria-labelledby="t-data" tabindex="-1">
+<section class="panel" id="data" aria-labelledby="t-data" tabindex="-1">
   <h2>From a data matrix to \(\bar{\mathbf x}\), \(\mathbf S\) and \(\mathbf R\)</h2>
   <p class="intro">Rows are observational units and columns are variables, so \(x_{jk}\) is variable \(k\) for unit \(j\). Each row is one point in the scatter plot. Drag a point, click empty space to add one, or double-click a point to remove it. You can also type into the table.</p>
   <div class="key">
@@ -207,7 +228,7 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
 </section>
 
 <!-- ================= 1.4 DISTANCE ================= -->
-<section role="tabpanel" id="distance" aria-labelledby="t-distance" tabindex="-1" hidden>
+<section class="panel" id="distance" aria-labelledby="t-distance" tabindex="-1" hidden>
   <h2>Three rulers: Euclidean, standardised and Mahalanobis</h2>
   <p class="intro">How far is the point \(P\) from the centre of the cloud? Each distance draws the set of points at the <i>same</i> distance as \(P\). Drag \(P\), reshape the cloud, or change the units of \(x_1\).</p>
   <div class="key">
@@ -262,7 +283,7 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
 </section>
 
 <!-- ================= 2.1 VECTORS AND MATRICES ================= -->
-<section role="tabpanel" id="linalg" aria-labelledby="t-linalg" tabindex="-1" hidden>
+<section class="panel" id="linalg" aria-labelledby="t-linalg" tabindex="-1" hidden>
   <h2>Vectors measure, matrices move</h2>
   <p class="intro">On the left, drag the tips of <span class="c1"><b>x</b></span> and <span class="c2"><b>y</b></span> to see length, inner product, angle and projection. On the right, a matrix \(\mathbf A\) acts on the whole plane. Its determinant is how much it scales area, and its eigenvectors are the directions it doesn't turn.</p>
   <div class="key">
@@ -321,7 +342,7 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
 </section>
 
 <!-- ================= 2.2 QUADRATIC FORMS ================= -->
-<section role="tabpanel" id="quadform" aria-labelledby="t-quadform" tabindex="-1" hidden>
+<section class="panel" id="quadform" aria-labelledby="t-quadform" tabindex="-1" hidden>
   <h2>Quadratic forms and positive definiteness</h2>
   <p class="intro">A symmetric \(\mathbf A\) turns every vector into one number, \(Q(\mathbf x)=\mathbf x'\mathbf A\mathbf x\). The shading shows its sign over the plane and the lines are level sets. If \(\mathbf A\) is positive definite, every level set is an ellipse. Drag the point to evaluate \(Q\).</p>
   <div class="key">
@@ -360,7 +381,7 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
 </section>
 
 <!-- ================= 2.3 TRANSFORMING A RANDOM VECTOR ================= -->
-<section role="tabpanel" id="affine" aria-labelledby="t-affine" tabindex="-1" hidden>
+<section class="panel" id="affine" aria-labelledby="t-affine" tabindex="-1" hidden>
   <h2>Transforming a random vector: \(\mathbf Y=\mathbf A\mathbf X+\mathbf b\)</h2>
   <p class="intro">AI Exploration 1, done live. 400 draws of \(\mathbf X\) are pushed through \(\mathbf A\) and shifted by \(\mathbf b\). The formulas predict the new mean and covariance without any data, and the simulation checks them.</p>
   <div class="key">
@@ -402,7 +423,7 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
 </section>
 
 <!-- ================= 3.1 ROWS VS COLUMNS ================= -->
-<section role="tabpanel" id="geometry" aria-labelledby="t-geometry" tabindex="-1" hidden>
+<section class="panel" id="geometry" aria-labelledby="t-geometry" tabindex="-1" hidden>
   <h2>Two pictures of one data matrix</h2>
   <p class="intro">An \(n\times p\) matrix \(\mathbf X\) is either <b>n points in \(\mathbb R^p\)</b> (rows) or <b>p vectors in \(\mathbb R^n\)</b> (columns). With \(n=3,\ p=2\) the column picture fits in 3-D. Drag the points on the left.</p>
   <div class="key">
@@ -465,7 +486,7 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
 </section>
 
 <!-- ================= 3.1 ANGLE ================= -->
-<section role="tabpanel" id="angle" aria-labelledby="t-angle" tabindex="-1" hidden>
+<section class="panel" id="angle" aria-labelledby="t-angle" tabindex="-1" hidden>
   <h2>Correlation is the cosine of an angle</h2>
   <p class="intro">AI Exploration-1. \(\mathbf d_1,\mathbf d_2\in\mathbb R^5\) are centred (each sums to zero). Turn the angle and watch the five observations.</p>
   <div class="key">
@@ -498,7 +519,7 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
 </section>
 
 <!-- ================= 3.2 SAMPLING ================= -->
-<section role="tabpanel" id="sampling" aria-labelledby="t-sampling" tabindex="-1" hidden>
+<section class="panel" id="sampling" aria-labelledby="t-sampling" tabindex="-1" hidden>
   <h2>\(\bar{\mathbf x}\) and \(\mathbf S\) are random too</h2>
   <p class="intro">Before the data are collected, each row \(\mathbf X_j\) is a random vector, so \(\bar{\mathbf X}\) and \(\mathbf S\) are random as well. Draw many samples of size \(n\) from \(N_2(\boldsymbol\mu,\boldsymbol\Sigma)\) and check the theorem.</p>
   <div class="key">
@@ -552,7 +573,7 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
 </section>
 
 <!-- ================= 3.3 GENERALIZED VARIANCE ================= -->
-<section role="tabpanel" id="spread" aria-labelledby="t-spread" tabindex="-1" hidden>
+<section class="panel" id="spread" aria-labelledby="t-spread" tabindex="-1" hidden>
   <h2>One number for spread: \(|\mathbf S|\) and \(\operatorname{tr}(\mathbf S)\)</h2>
   <p class="intro">Both numbers compress the whole covariance matrix into one value. The ellipse is \((\mathbf x-\bar{\mathbf x})'\mathbf S^{-1}(\mathbf x-\bar{\mathbf x})=c^2\) with \(c=2\). The axes are fixed, so you can compare areas between settings.</p>
   <div class="key">
@@ -598,7 +619,7 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
 </section>
 
 <!-- ================= CH 2: INSIDE S ================= -->
-<section role="tabpanel" id="spectral" aria-labelledby="t-spectral" tabindex="-1" hidden>
+<section class="panel" id="spectral" aria-labelledby="t-spectral" tabindex="-1" hidden>
   <h2>Inside \(\mathbf S\): rotate, stretch, rotate back</h2>
   <p class="intro">This tab brings in Chapter 2. The spectral decomposition shows what \(\mathbf S\) does geometrically. Its square root turns a circle into the ellipse from the <a href="#spread" data-goto="spread">Generalized variance</a> tab, and its inverse square root turns the data back into a circle.</p>
   <div class="key">
@@ -637,7 +658,7 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
 </section>
 
 <!-- ================= 3.4 LINEAR COMBINATIONS ================= -->
-<section role="tabpanel" id="combos" aria-labelledby="t-combos" tabindex="-1" hidden>
+<section class="panel" id="combos" aria-labelledby="t-combos" tabindex="-1" hidden>
   <h2>Linear combinations inherit \(\bar{\mathbf x}\) and \(\mathbf S\)</h2>
   <p class="intro">\(y_j=\mathbf b'\mathbf x_j\) turns each observation into one number. For a unit \(\mathbf b\), that number is where the point's shadow lands on the line in direction \(\mathbf b\). Drag the <span class="c1"><b>b</b></span> and <span class="c2"><b>c</b></span> handles.</p>
   <div class="key">
@@ -679,7 +700,7 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
 </section>
 
 <!-- ================= 4.1 BIVARIATE NORMAL ================= -->
-<section role="tabpanel" id="mvn" aria-labelledby="t-mvn" tabindex="-1" hidden>
+<section class="panel" id="mvn" aria-labelledby="t-mvn" tabindex="-1" hidden>
   <h2>The bivariate normal: contours, probability ellipses and conditioning</h2>
   <p class="intro">The density is constant on the ellipses \((\mathbf x-\boldsymbol\mu)'\boldsymbol\Sigma^{-1}(\mathbf x-\boldsymbol\mu)=c^2\), the Mahalanobis circles from Chapter 1. Pick \(c^2\) from \(\chi^2_2\) and the ellipse holds a known probability. Drag the vertical slice to condition on \(X_1\).</p>
   <div class="key">
@@ -733,7 +754,7 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
 </section>
 
 <!-- ================= 4.4–4.5 NORMALITY ================= -->
-<section role="tabpanel" id="normality" aria-labelledby="t-normality" tabindex="-1" hidden>
+<section class="panel" id="normality" aria-labelledby="t-normality" tabindex="-1" hidden>
   <h2>Is it normal? Q-Q plots, \(r_Q\) and the chi-square plot</h2>
   <p class="intro">Pick a data set and run the lecture's checks on it. Drag any point in the scatter plot to make your own outlier, and watch where it lands in each plot.</p>
   <div class="key">
@@ -780,7 +801,7 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
 </section>
 
 <!-- ================= 4.6 BOX-COX ================= -->
-<section role="tabpanel" id="boxcox" aria-labelledby="t-boxcox" tabindex="-1" hidden>
+<section class="panel" id="boxcox" aria-labelledby="t-boxcox" tabindex="-1" hidden>
   <h2>Box-Cox: choosing a power to make data look normal</h2>
   <p class="intro">Powers below 1 pull in a long right tail, and powers above 1 stretch it out. Slide \(\lambda\) and watch the histogram and Q-Q plot. The likelihood curve underneath picks the best \(\lambda\) for you.</p>
   <div class="key">
@@ -830,7 +851,138 @@ footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid va
   </div>
 </section>
 
-<footer>Companion to MATH 4424 Chapters 1–4 (Johnson &amp; Wichern, <i>Applied Multivariate Statistical Analysis</i>). Data in the angle, sampling, spread and combination tabs are simulated. The Box-Cox tab's radiation data are from Johnson &amp; Wichern Example 4.10.</footer>
+<!-- ================= 5.1 HOTELLING'S T² ================= -->
+<section class="panel" id="hotelling" aria-labelledby="t-hotelling" tabindex="-1" hidden>
+  <h2>Hotelling's \(T^2\): testing a mean vector</h2>
+  <p class="intro">Drag \(\boldsymbol\mu_0\) (the cross). The joint test rejects \(H_0:\boldsymbol\mu=\boldsymbol\mu_0\) exactly when the cross leaves the purple ellipse. The dashed box is where two separate \(t\)-tests both accept, so the corners of the box are where one-at-a-time tests and the joint test disagree.</p>
+  <div class="key">
+    <div class="eq">\[ t^2=n(\bar x-\mu_0)(s^2)^{-1}(\bar x-\mu_0) \qquad T^2=n(\bar{\mathbf x}-\boldsymbol\mu_0)'\mathbf S^{-1}(\bar{\mathbf x}-\boldsymbol\mu_0)\ \sim\ \frac{(n-1)p}{n-p}\,F_{p,\,n-p}\ \text{ under } H_0 \]</div>
+    <div class="from">Reject at level \(\alpha\) when \(T^2>\frac{(n-1)p}{n-p}F_{p,n-p}(\alpha)\). \(T^2\) is the statistical distance from <b>Ch 1</b> between \(\bar{\mathbf x}\) and \(\boldsymbol\mu_0\), measured with \(\widehat{\mathrm{Cov}}(\bar{\mathbf X})=\frac1n\mathbf S\) from <b>Ch 3</b>.</div>
+  </div>
+  <div class="row h-ctrls">
+    <span class="seg" role="group" aria-label="Data set">
+      <button data-hset="joint" aria-pressed="true">Joint shift</button>
+      <button data-hset="sweat" aria-pressed="false">Sweat data (Ex. 5.2)</button>
+      <button data-hset="ex51" aria-pressed="false">Example 5.1</button>
+      <button data-hset="random" aria-pressed="false">Random, H₀ true</button>
+    </span>
+    <span class="seg" role="group" aria-label="Significance level">
+      <button data-halpha="0.1" aria-pressed="false">α = 10%</button>
+      <button data-halpha="0.05" aria-pressed="true">5%</button>
+      <button data-halpha="0.01" aria-pressed="false">1%</button>
+    </span>
+    <span class="seg pairseg" role="group" aria-label="Variables to plot" hidden>
+      <button data-hpair="0,1" aria-pressed="true">x₁, x₂</button>
+      <button data-hpair="0,2" aria-pressed="false">x₁, x₃</button>
+      <button data-hpair="1,2" aria-pressed="false">x₂, x₃</button>
+    </span>
+  </div>
+  <div class="figs">
+    <figure class="fig">
+      <canvas id="cv-ht" aria-label="Sample with its mean, a draggable mu0, the T-squared acceptance ellipse and the marginal t-test box"></canvas>
+      <figcaption class="legend">
+        <span class="ca"><i class="sw"></i>\(\boldsymbol\mu_0\) values \(T^2\) accepts</span>
+        <span class="c1"><i class="sw dash"></i>\(\boldsymbol\mu_0\) values both \(t\)-tests accept</span>
+        <span class="co"><i class="sw dot"></i>observations</span>
+      </figcaption>
+    </figure>
+    <figure class="fig">
+      <canvas id="cv-htf" aria-label="Null distribution of T-squared with the critical value and the observed statistic"></canvas>
+      <figcaption class="legend">
+        <span><i class="sw"></i>density of \(\frac{(n-1)p}{n-p}F_{p,n-p}\)</span>
+        <span class="c2"><i class="sw"></i>rejection region, area \(\alpha\)</span>
+        <span class="ca"><i class="sw"></i>observed \(T^2\)</span>
+        <span class="c1"><i class="sw"></i>simulated \(T^2\) under \(H_0\)</span>
+      </figcaption>
+    </figure>
+  </div>
+  <div class="below">
+    <div class="card">
+      <h3>Controls</h3>
+      <div class="btns">
+        <button class="btn" id="h-reset">Reset \(\boldsymbol\mu_0\)</button>
+        <button class="btn" id="h-new">New random sample</button>
+        <button class="btn primary" id="h-sim">Simulate 10,000 samples under \(H_0\)</button>
+      </div>
+      <div class="mats" id="h-mats"></div>
+    </div>
+    <div class="card">
+      <h3>Live numbers</h3>
+      <div class="scroll"><table class="q" id="h-table"></table></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 5.2 LIKELIHOOD RATIO TEST ================= -->
+<section class="panel" id="lrt" aria-labelledby="t-lrt" tabindex="-1" hidden>
+  <h2>The likelihood ratio test and Wilks' lambda</h2>
+  <p class="intro">Fit the data twice: with \(\boldsymbol\mu\) free (spread \(\hat{\boldsymbol\Sigma}\) about \(\bar{\mathbf x}\)) and with \(\boldsymbol\mu\) forced to \(\boldsymbol\mu_0\) (spread \(\hat{\boldsymbol\Sigma}_0\) about \(\boldsymbol\mu_0\)). The wrong centre inflates the spread along \(\bar{\mathbf x}-\boldsymbol\mu_0\). Drag \(\boldsymbol\mu_0\) and compare the two ellipses.</p>
+  <div class="key">
+    <div class="eq">\[ \Lambda=\frac{\max_{\boldsymbol\Sigma}L(\boldsymbol\mu_0,\boldsymbol\Sigma)}{\max_{\boldsymbol\mu,\boldsymbol\Sigma}L(\boldsymbol\mu,\boldsymbol\Sigma)}=\left(\frac{|\hat{\boldsymbol\Sigma}|}{|\hat{\boldsymbol\Sigma}_0|}\right)^{n/2} \qquad \hat{\boldsymbol\Sigma}_0=\hat{\boldsymbol\Sigma}+(\bar{\mathbf x}-\boldsymbol\mu_0)(\bar{\mathbf x}-\boldsymbol\mu_0)' \]</div>
+    <div class="eq">\[ \Lambda^{2/n}=\Big(1+\frac{T^2}{n-1}\Big)^{-1} \qquad -2\ln\Lambda\ \dot\sim\ \chi^2_{\nu-\nu_0}\ \text{ for large } n \]</div>
+    <div class="from">Theorem 5.1: small \(\Lambda\) means large \(T^2\), so the LRT and Hotelling's test are the same test. Theorem 5.2: for large \(n\), \(-2\ln\Lambda\) is roughly \(\chi^2\) with \(\nu-\nu_0=p\) degrees of freedom, since \(H_0\) fixes the \(p\) means. \(\hat{\boldsymbol\Sigma}\) and \(\hat{\boldsymbol\Sigma}_0\) are the MLEs (divisor \(n\)) from <b>Ch 4</b>.</div>
+  </div>
+  <div class="row h-ctrls">
+    <span class="seg" role="group" aria-label="Data set">
+      <button data-hset="joint" aria-pressed="true">Joint shift</button>
+      <button data-hset="sweat" aria-pressed="false">Sweat data (Ex. 5.2)</button>
+      <button data-hset="ex51" aria-pressed="false">Example 5.1</button>
+      <button data-hset="random" aria-pressed="false">Random, H₀ true</button>
+    </span>
+    <span class="seg" role="group" aria-label="Significance level">
+      <button data-halpha="0.1" aria-pressed="false">α = 10%</button>
+      <button data-halpha="0.05" aria-pressed="true">5%</button>
+      <button data-halpha="0.01" aria-pressed="false">1%</button>
+    </span>
+    <span class="seg pairseg" role="group" aria-label="Variables to plot" hidden>
+      <button data-hpair="0,1" aria-pressed="true">x₁, x₂</button>
+      <button data-hpair="0,2" aria-pressed="false">x₁, x₃</button>
+      <button data-hpair="1,2" aria-pressed="false">x₂, x₃</button>
+    </span>
+  </div>
+  <div class="figs">
+    <figure class="fig">
+      <canvas id="cv-lr" aria-label="Sample with the MLE covariance ellipse about the mean and the restricted ellipse about mu0"></canvas>
+      <figcaption class="legend">
+        <span class="c1"><i class="sw"></i>\(\hat{\boldsymbol\Sigma}\) about \(\bar{\mathbf x}\)</span>
+        <span class="c2"><i class="sw"></i>\(\hat{\boldsymbol\Sigma}_0\) about \(\boldsymbol\mu_0\)</span>
+        <span class="c2"><i class="sw dash"></i>deviations \(\mathbf x_j-\boldsymbol\mu_0\)</span>
+      </figcaption>
+    </figure>
+    <figure class="fig">
+      <canvas id="cv-lrm" aria-label="Lambda to the 2/n plotted against T-squared"></canvas>
+      <figcaption>\(\Lambda^{2/n}\) falls as \(T^2\) grows, so "\(\Lambda\) small" and "\(T^2\) large" mark out the same samples.</figcaption>
+    </figure>
+  </div>
+  <figure class="fig" style="margin-top:14px">
+    <canvas id="cv-lrx" class="wide" aria-label="Exact density of minus two log lambda compared with the chi-square approximation"></canvas>
+    <figcaption class="legend">
+      <span class="ca"><i class="sw"></i>exact density of \(-2\ln\Lambda\) under \(H_0\)</span>
+      <span><i class="sw dash"></i>\(\chi^2_p\) approximation (Theorem 5.2)</span>
+      <span class="c2"><i class="sw"></i>\(\chi^2_p(\alpha)\) cut-off and the exact tail area beyond it</span>
+    </figcaption>
+  </figure>
+  <div class="below">
+    <div class="card">
+      <h3>Theorem 5.2: how large is large \(n\)?</h3>
+      <div class="ctrl"><label for="lr-n">\(n\)</label><input type="range" id="lr-n" min="4" max="150" step="1" value="12"><output id="lr-n-o"></output></div>
+      <div class="row"><span class="hint">\(p\)</span>
+        <span class="seg" role="group" aria-label="Dimension p"><button data-lrp="2" aria-pressed="true">2</button><button data-lrp="3" aria-pressed="false">3</button><button data-lrp="5" aria-pressed="false">5</button></span>
+      </div>
+      <div class="checks" style="margin-top:10px"><label><input type="checkbox" id="lr-dev" checked> show deviations from \(\boldsymbol\mu_0\)</label></div>
+    </div>
+    <div class="card">
+      <h3>Live numbers</h3>
+      <div class="scroll"><table class="q" id="lr-table"></table></div>
+    </div>
+  </div>
+</section>
+
+<div class="pager" id="pager"></div>
+</main>
+</div>
+
+<footer>Companion to MATH 4424 Chapters 1–5 (Johnson &amp; Wichern, <i>Applied Multivariate Statistical Analysis</i>). Data in the angle, sampling, spread and combination tabs are simulated. The Box-Cox tab's radiation data are from Johnson &amp; Wichern Example 4.10, and the sweat data from Example 5.2.</footer>
 </div>
 
 <script>
@@ -2245,28 +2397,319 @@ $$('[data-af]').forEach(btn=>btn.addEventListener('click',()=>{
 $('#af-new').addEventListener('click',()=>{ AF.seed++; afDraws(); drawAffine(); });
 
 /* =====================================================================
+   5.1 Hotelling's T²  ·  5.2 likelihood ratio test
+   ===================================================================== */
+function lgam(x){
+  const c=[0.99999999999980993,676.5203681218851,-1259.1392167224028,771.32342877765313,-176.61502916214059,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+  if (x<0.5) return Math.log(Math.PI/Math.abs(Math.sin(Math.PI*x)))-lgam(1-x);
+  x-=1; let a=c[0]; const t=x+7.5; for (let i=1;i<9;i++) a+=c[i]/(x+i);
+  return 0.5*Math.log(TAU)+(x+0.5)*Math.log(t)-t+Math.log(a);
+}
+function betacf(a,b,x){
+  const tiny=1e-300, qab=a+b, qap=a+1, qam=a-1; let c=1, d=1-qab*x/qap; if (Math.abs(d)<tiny) d=tiny; d=1/d; let h=d;
+  for (let m=1;m<=300;m++){
+    const m2=2*m; let aa=m*(b-m)*x/((qam+m2)*(a+m2));
+    d=1+aa*d; if (Math.abs(d)<tiny) d=tiny; c=1+aa/c; if (Math.abs(c)<tiny) c=tiny; d=1/d; h*=d*c;
+    aa=-(a+m)*(qab+m)*x/((a+m2)*(qap+m2));
+    d=1+aa*d; if (Math.abs(d)<tiny) d=tiny; c=1+aa/c; if (Math.abs(c)<tiny) c=tiny; d=1/d; const del=d*c; h*=del;
+    if (Math.abs(del-1)<3e-14) break;
+  }
+  return h;
+}
+function ibeta(x,a,b){
+  if (x<=0) return 0; if (x>=1) return 1;
+  const bt=Math.exp(lgam(a+b)-lgam(a)-lgam(b)+a*Math.log(x)+b*Math.log(1-x));
+  return x<(a+1)/(a+b+2) ? bt*betacf(a,b,x)/a : 1-bt*betacf(b,a,1-x)/b;
+}
+const pF = (x,d1,d2) => x<=0 ? 0 : ibeta(d1*x/(d1*x+d2), d1/2, d2/2);
+const dF = (x,d1,d2) => x<=0 ? 0 : Math.exp(lgam((d1+d2)/2)-lgam(d1/2)-lgam(d2/2)+(d1/2)*Math.log(d1/d2)+(d1/2-1)*Math.log(x)-((d1+d2)/2)*Math.log(1+d1*x/d2));
+function qInv(cdf,p){ let lo=0, hi=1; while (cdf(hi)<p && hi<1e8) hi*=2; for (let i=0;i<90;i++){ const m=(lo+hi)/2; if (cdf(m)<p) lo=m; else hi=m; } return (lo+hi)/2; }
+const QFC={}; const qF = (p,d1,d2) => QFC[p+'|'+d1+'|'+d2] ??= qInv(x=>pF(x,d1,d2),p);
+function pgam(a,x){
+  if (x<=0) return 0;
+  const lf=-x+a*Math.log(x)-lgam(a);
+  if (x<a+1){ let s=1/a, t=s; for (let n=1;n<500;n++){ t*=x/(a+n); s+=t; if (t<s*1e-15) break; } return s*Math.exp(lf); }
+  let b=x+1-a, c=1e300, d=1/b, h=d;
+  for (let i=1;i<500;i++){ const an=-i*(i-a); b+=2; d=an*d+b; if (Math.abs(d)<1e-300) d=1e-300; c=b+an/c; if (Math.abs(c)<1e-300) c=1e-300; d=1/d; const del=d*c; h*=del; if (Math.abs(del-1)<1e-15) break; }
+  return 1-Math.exp(lf)*h;
+}
+const pChi = (x,k) => pgam(k/2,x/2);
+const dChi = (x,k) => x<=0 ? 0 : Math.exp((k/2-1)*Math.log(x)-x/2-(k/2)*Math.log(2)-lgam(k/2));
+const qChi = (p,k) => qInv(x=>pChi(x,k),p);
+function invM(M){
+  const n=M.length, A=M.map((r,i)=>[...r, ...r.map((_,j)=>i===j?1:0)]);
+  for (let c=0;c<n;c++){
+    let pv=c; for (let r=c+1;r<n;r++) if (Math.abs(A[r][c])>Math.abs(A[pv][c])) pv=r;
+    [A[c],A[pv]]=[A[pv],A[c]]; const d=A[c][c];
+    for (let j=0;j<2*n;j++) A[c][j]/=d;
+    for (let r=0;r<n;r++) if (r!==c){ const f=A[r][c]; if (f) for (let j=0;j<2*n;j++) A[r][j]-=f*A[c][j]; }
+  }
+  return A.map(r=>r.slice(n));
+}
+const detM = M => M.length===1 ? M[0][0] : det(M);
+const pFmt = p => p<0.0001 ? '< 0.0001' : fmt(p,4);
+
+const SWEAT=[[3.7,48.5,9.3],[5.7,65.1,8.0],[3.8,47.2,10.9],[3.2,53.2,12.0],[3.1,55.5,9.7],[4.6,36.1,7.9],[2.4,24.8,14.0],[7.2,33.1,7.6],[6.7,47.4,8.5],[5.4,54.1,11.3],
+  [3.9,36.9,12.7],[4.5,58.8,12.3],[3.5,27.8,9.8],[4.5,40.2,8.4],[1.5,13.5,10.1],[8.5,56.4,7.1],[4.5,71.6,8.2],[6.5,52.8,10.9],[4.1,44.1,11.2],[5.5,40.9,9.4]];
+const HSETS = {
+  joint: { X:(()=>{ const r=rng(55), n=20, k=(n-1)/n; return matchMoments([...Array(n)].map(()=>[gauss(r),gauss(r)]), [5.35,3.85], [[1.44*k,1.02*k],[1.02*k,k]]); })(), mu0:[5,4], names:['x₁','x₂'], alpha:0.05 },
+  sweat: { X:SWEAT, mu0:[4,50,10], names:['x₁ sweat rate','x₂ sodium','x₃ potassium'], alpha:0.10 },
+  ex51:  { X:[[6,9],[10,6],[8,3]], mu0:[9,5], names:['x₁','x₂'], alpha:0.05 },
+  random:{ X:null, mu0:[5,4], names:['x₁','x₂'], alpha:0.05 },
+};
+const H = { set:'joint', X:null, p:2, mu0:[5,4], pair:[0,1], alpha:0.05, seed:3, sim:null, drag:false, view:null, lview:null, bounds:null };
+const LR = { n:12, p:2 };
+function genRandomH(){ const r=rng(H.seed*101), L=chol2([[1,0.5],[0.5,1.5]]); HSETS.random.X=[...Array(15)].map(()=>add([5,4],matVec(L,[gauss(r),gauss(r)])).map(x=>Math.round(x*100)/100)); }
+function hStats(){
+  const X=H.X, n=X.length, p=H.p, m=colMeans(X), S=covMat(X), W=invM(S), d=sub(m,H.mu0), k=(n-1)*p/(n-p);
+  const T2=n*quad(d,W), crit=k*qF(1-H.alpha,p,n-p), pv=1-pF(T2/k,p,n-p), tc=Math.sqrt(qF(1-H.alpha,1,n-1));
+  const ts=d.map((di,i)=>di/Math.sqrt(S[i][i]/n)), tp=ts.map(t=>1-pF(t*t,1,n-1));
+  return { X,n,p,m,S,W,d,k,T2,crit,pv,tc,ts,tp };
+}
+function hBounds(){
+  const st=hStats(), [i,j]=H.pair, q=H.pair.map(a=>H.X.map(r=>r[a]));
+  const lo=q.map(v=>Math.min(...v)), hi=q.map(v=>Math.max(...v)), span=q.map((v,a)=>(hi[a]-lo[a])||1);
+  const c01=st.k*qF(0.99,st.p,st.n-st.p);
+  const ext=[i,j].map((a,b)=>Math.min(Math.sqrt(c01*st.S[a][a]/st.n)*1.08, span[b]*1.4));
+  const L=[0,1].map(b=>Math.min(lo[b], st.m[H.pair[b]]-ext[b], H.mu0[H.pair[b]])), U=[0,1].map(b=>Math.max(hi[b], st.m[H.pair[b]]+ext[b], H.mu0[H.pair[b]]));
+  const pd=[0,1].map(b=>(U[b]-L[b])*0.06);
+  H.bounds=[L[0]-pd[0],U[0]+pd[0],L[1]-pd[1],U[1]+pd[1]];
+}
+function loadH(name, keepAlpha){
+  H.set=name; if (name==='random') genRandomH();
+  const s=HSETS[name]; H.X=s.X.map(r=>r.slice()); H.p=H.X[0].length; H.mu0=s.mu0.slice(); H.pair=[0,1]; H.sim=null;
+  if (!keepAlpha) setAlphaH(s.alpha, true);
+  $$('[data-hset]').forEach(b=>b.setAttribute('aria-pressed', b.dataset.hset===name));
+  $$('[data-hpair]').forEach(b=>b.setAttribute('aria-pressed', b.dataset.hpair==='0,1'));
+  $$('.pairseg').forEach(g=>g.hidden = H.p<3);
+  hBounds(); if (DRAW[active]) DRAW[active]();
+}
+function setAlphaH(a, quiet){ H.alpha=a; $$('[data-halpha]').forEach(b=>b.setAttribute('aria-pressed', +b.dataset.halpha===a)); if (!quiet) DRAW[active](); }
+/* Acceptance region for (μ_i, μ_j) with the other coordinates of μ held at μ₀ */
+function accRegion(st){
+  const [i,j]=H.pair, W=st.W, b=[...Array(st.p).keys()].filter(k=>k!==i&&k!==j);
+  const Waa=[[W[i][i],W[i][j]],[W[j][i],W[j][j]]];
+  let cen=[0,0], r=st.crit/st.n;
+  if (b.length){
+    const db=b.map(k=>st.d[k]), g=[dot(b.map(k=>W[i][k]),db), dot(b.map(k=>W[j][k]),db)];
+    cen=scl(matVec(inv2(Waa),g),-1);
+    r -= quad(db, b.map(x=>b.map(y=>W[x][y]))) - quad(cen,Waa);
+  }
+  return { center:[st.m[i]-cen[0], st.m[j]-cen[1]], Sig:inv2(Waa), r };
+}
+function hScatter(cv, viewKey){
+  const {ctx,w,h}=prep(cv), [x0,x1,y0,y1]=H.bounds, [i,j]=H.pair;
+  const v=makeView2(w,h,x0,x1,y0,y1,{l:50,r:14,t:30,b:26}); H[viewKey]=v;
+  drawAxes2(ctx,v,w,h,H.p>2?HSETS[H.set].names[i]:'x₁',H.p>2?HSETS[H.set].names[j]:'x₂');
+  return {ctx,w,h,v,i,j};
+}
+function muLabel(ctx, v, w, txt, col){
+  const [i,j]=H.pair, ux=v.X(H.mu0[i]), uy=v.Y(H.mu0[j]); ctx.font=F.num; const tw=ctx.measureText(txt).width, dy=uy<60?18:-16;
+  if (ux+13+tw<=w-8) label(ctx, txt, ux+13, uy+dy, col, F.num);
+  else if (ux-13-tw>=v.pad.l) label(ctx, txt, ux-13, uy+dy, col, F.num, 'right');
+  else label(ctx, txt, Math.max(v.pad.l+4, Math.min(w-8-tw, ux-tw/2)), uy+(uy<60?24:-22), col, F.num);
+}
+function drawHot(){
+  const st=hStats(), {ctx,w,h,v,i,j}=hScatter($('#cv-ht'),'view');
+  clipPlot(ctx,v,w,h);
+  const reg=accRegion(st);
+  if (reg.r>0){ ellipsePath(ctx,v,reg.center,reg.Sig,Math.sqrt(reg.r)); ctx.fillStyle=T['acc-soft']; ctx.fill(); ctx.strokeStyle=T.acc; ctx.lineWidth=2; ctx.stroke(); }
+  const hw=a=>st.tc*Math.sqrt(st.S[a][a]/st.n), bx0=v.X(st.m[i]-hw(i)), bx1=v.X(st.m[i]+hw(i)), by0=v.Y(st.m[j]+hw(j)), by1=v.Y(st.m[j]-hw(j));
+  ctx.save(); ctx.setLineDash([6,4]); ctx.strokeStyle=T.v1; ctx.lineWidth=1.6; ctx.strokeRect(bx0,by0,bx1-bx0,by1-by0); ctx.restore();
+  ctx.globalAlpha=0.6; st.X.forEach(r=>dot2(ctx,v.X(r[i]),v.Y(r[j]),3.6,T.one)); ctx.globalAlpha=1;
+  const mx=v.X(st.m[i]), my=v.Y(st.m[j]), ux=v.X(H.mu0[i]), uy=v.Y(H.mu0[j]), rej=st.T2>st.crit;
+  dashed(ctx,[[mx,my],[ux,uy]],T.ink,1.2,[3,3]);
+  dot2(ctx,mx,my,6,T.ink); cross(ctx,ux,uy,rej?T.v2:T.ok,8);
+  ctx.restore();
+  label(ctx,'x̄',mx+(ux<mx?9:-9),my+(uy>my?-12:12),T.ink,F.lab,ux<mx?'left':'right');
+  muLabel(ctx, v, w, `μ₀ · T² = ${fmt(st.T2)} · ${rej?'reject':'accept'}`, rej?T.v2:T.ok);
+  title(ctx, H.p>2 ? `Other mean held at its μ₀ value (${fmt(H.mu0[3-i-j],1)})` : 'Drag μ₀. The joint test rejects outside the ellipse');
+  drawHotDist(st); hotNumbers(st);
+}
+function drawHotDist(st){
+  const {ctx,w,h}=prep($('#cv-htf')), {n,p,k,crit,T2}=st, f=t=>dF(t/k,p,n-p)/k;
+  const xmax=crit*2.6;
+  const xs=[...Array(241)].map((_,a)=>Math.max(xmax*1e-4, xmax*a/240)), ys=xs.map(f);
+  let hist=null, bw=xmax/40;
+  if (H.sim){ hist=Array(40).fill(0); H.sim.forEach(t=>{ if (t<xmax) hist[Math.floor(t/bw)]++; }); hist=hist.map(c=>c/(H.sim.length*bw)); }
+  const ymax=Math.max(...ys.slice(2), ...(hist?hist.slice(1):[]))*1.15;
+  const v=makeView2(w,h,0,xmax,0,ymax,{l:52,r:14,t:30,b:26});
+  drawAxes2(ctx,v,w,h,'T²','density');
+  clipPlot(ctx,v,w,h);
+  if (hist) hist.forEach((d,a)=>{ const x0=v.X(a*bw), x1=v.X((a+1)*bw); ctx.fillStyle=T['v1-soft']; ctx.fillRect(x0,v.Y(d),x1-x0,v.Y(0)-v.Y(d)); ctx.strokeStyle=T.v1; ctx.lineWidth=1; ctx.strokeRect(x0+.5,v.Y(d)+.5,x1-x0-1,v.Y(0)-v.Y(d)); });
+  ctx.beginPath(); ctx.moveTo(v.X(crit),v.Y(0)); xs.forEach((x,a)=>{ if (x>=crit) ctx.lineTo(v.X(x),v.Y(ys[a])); }); ctx.lineTo(v.X(xmax),v.Y(0)); ctx.closePath();
+  ctx.fillStyle=T['v2-soft']; ctx.fill();
+  ctx.beginPath(); xs.forEach((x,a)=>a?ctx.lineTo(v.X(x),v.Y(ys[a])):ctx.moveTo(v.X(x),v.Y(ys[a]))); ctx.strokeStyle=T.ink; ctx.lineWidth=2.2; ctx.stroke();
+  ctx.strokeStyle=T.v2; ctx.lineWidth=1.8; ctx.beginPath(); ctx.moveTo(v.X(crit),v.pad.t); ctx.lineTo(v.X(crit),v.Y(0)); ctx.stroke();
+  const tx=Math.min(T2,xmax);
+  ctx.strokeStyle=T.acc; ctx.lineWidth=2.4; ctx.beginPath(); ctx.moveTo(v.X(tx),v.pad.t); ctx.lineTo(v.X(tx),v.Y(0)); ctx.stroke();
+  ctx.restore();
+  const cr=v.X(crit)>w*0.7;
+  label(ctx,`critical ${fmt(crit)}`, v.X(crit)+(cr?-6:6), v.pad.t+14, T.v2, F.num, cr?'right':'left');
+  const tr=v.X(tx)>w*0.7;
+  label(ctx, T2>xmax?`T² = ${fmt(T2)} →`:`T² = ${fmt(T2)}`, v.X(tx)+(tr?-6:6), v.pad.t+34, T.acc, F.num, tr?'right':'left');
+  title(ctx, `Under H₀: T² ~ (${n-1}·${p}/${n-p}) F(${p}, ${n-p})`);
+}
+function hotNumbers(st){
+  const nm=HSETS[H.set].names, rej=st.T2>st.crit, margRej=st.ts.some(t=>Math.abs(t)>st.tc);
+  set('h-mats', matHTML('x̄', st.m.map(x=>[x])) + matHTML('μ₀', H.mu0.map(x=>[x])) + matHTML('<b>S</b>', st.S, st.S.flat().some(x=>Math.abs(x)>=100)?1:2));
+  const rows=st.ts.map((t,a)=>`<tr><td>t-test for ${nm[a]}</td><td class="num">${fmt(t)}<span class="eqv">p = ${pFmt(st.tp[a])} · crit ±${fmt(st.tc,3)}</span></td></tr>`).join('');
+  const simRow = H.sim ? `<tr><td>simulated share with T² &gt; crit</td><td class="num">${fmt(100*H.sim.filter(t=>t>st.crit).length/H.sim.length,1)}%<span class="eqv">should be ≈ ${fmt(100*H.alpha,0)}%</span></td></tr>` : '';
+  set('h-table', `<tr><th>Quantity</th><th style="text-align:right">Value</th></tr>${rows}
+    <tr><td>T² = n(x̄ − μ₀)′S⁻¹(x̄ − μ₀)</td><td class="num"><b>${fmt(st.T2,3)}</b><span class="eqv">crit ${fmt(st.crit,3)} (n = ${st.n}, p = ${st.p})</span></td></tr>
+    <tr><td>F = (n − p)T² / ((n − 1)p) and p-value</td><td class="num">${fmt(st.T2/st.k,3)}<span class="eqv">p = ${pFmt(st.pv)}</span></td></tr>
+    <tr><td>joint test</td><td class="num">${verdictPill(!rej,'do not reject H₀','reject H₀')}</td></tr>
+    <tr><td>one-at-a-time t-tests</td><td class="num">${verdictPill(!margRej,'none reject','some reject')}</td></tr>${simRow}`);
+}
+function simT2(){
+  const n=H.X.length, p=H.p, r=rng(H.seed*977+n*31+p), out=new Float64Array(10000);
+  for (let s=0;s<out.length;s++){
+    const X=[...Array(n)].map(()=>[...Array(p)].map(()=>gauss(r)));
+    const m=colMeans(X); out[s]=n*quad(m,invM(covMat(X)));
+  }
+  H.sim=[...out]; DRAW[active]();
+}
+function drawLRT(){
+  const st=hStats(), {n,p,m,X,d}=st;
+  const Sh=covMat(X,n), Sh0=Sh.map((r,a)=>r.map((x,b)=>x+d[a]*d[b])), dS=detM(Sh), dS0=detM(Sh0), L2n=dS/dS0, m2l=-n*Math.log(L2n);
+  const {ctx,w,h,v,i,j}=hScatter($('#cv-lr'),'lview'), sub2=M=>[[M[i][i],M[i][j]],[M[j][i],M[j][j]]];
+  clipPlot(ctx,v,w,h);
+  if ($('#lr-dev').checked){ ctx.globalAlpha=0.45; X.forEach(r=>dashed(ctx,[[v.X(r[i]),v.Y(r[j])],[v.X(H.mu0[i]),v.Y(H.mu0[j])]],T.v2,1,[3,3])); ctx.globalAlpha=1; }
+  ellipsePath(ctx,v,[m[i],m[j]],sub2(Sh),2); ctx.fillStyle=T['v1-soft']; ctx.fill(); ctx.strokeStyle=T.v1; ctx.lineWidth=2; ctx.stroke();
+  ellipsePath(ctx,v,[H.mu0[i],H.mu0[j]],sub2(Sh0),2); ctx.fillStyle=T['v2-soft']; ctx.fill(); ctx.strokeStyle=T.v2; ctx.lineWidth=2; ctx.stroke();
+  ctx.globalAlpha=0.7; X.forEach(r=>dot2(ctx,v.X(r[i]),v.Y(r[j]),3.6,T.one)); ctx.globalAlpha=1;
+  const mx=v.X(m[i]), my=v.Y(m[j]), ux=v.X(H.mu0[i]), uy=v.Y(H.mu0[j]);
+  dot2(ctx,mx,my,6,T.v1); cross(ctx,ux,uy,T.v2,8);
+  ctx.restore();
+  label(ctx,'x̄',mx+(ux<mx?9:-9),my+(uy>my?-12:12),T.v1,F.lab,ux<mx?'left':'right');
+  muLabel(ctx, v, w, `μ₀ · Λ^(2/n) = ${fmt(L2n,3)}`, T.v2);
+  title(ctx, `2-unit ellipses of the MLEs. |Σ̂| / |Σ̂₀| = ${fmt(L2n,3)}`);
+  drawLamCurve(st, L2n); drawLRX();
+  set('lr-table', `<tr><th>Quantity</th><th style="text-align:right">Value</th></tr>
+    <tr><td>|Σ̂| and |Σ̂₀| (divisor n)</td><td class="num">${fmt(dS,3)}<span class="eqv">${fmt(dS0,3)}</span></td></tr>
+    <tr><td>Λ<sup>2/n</sup> = |Σ̂| / |Σ̂₀|</td><td class="num"><b>${fmt(L2n,4)}</b><span class="eqv">1/(1 + T²/(n − 1)) = ${fmt(1/(1+st.T2/(n-1)),4)}</span></td></tr>
+    <tr><td>Λ and −2 ln Λ</td><td class="num">${Math.pow(L2n,n/2)<1e-4?Math.pow(L2n,n/2).toExponential(2):fmt(Math.pow(L2n,n/2),4)}<span class="eqv">${fmt(m2l,3)}</span></td></tr>
+    <tr><td>p-value: exact (via T²) vs χ²<sub>${p}</sub> approx.</td><td class="num">${pFmt(st.pv)}<span class="eqv">${pFmt(1-pChi(m2l,p))}</span></td></tr>
+    <tr><td>test at α = ${H.alpha}</td><td class="num">${verdictPill(st.T2<=st.crit,'do not reject H₀','reject H₀')}</td></tr>`);
+}
+function drawLamCurve(st, L2n){
+  const {ctx,w,h}=prep($('#cv-lrm')), {n,crit,T2}=st, g=t=>1/(1+t/(n-1));
+  const xmax=crit*3.5, c=g(crit);
+  const v=makeView2(w,h,0,xmax,0,1.05,{l:52,r:14,t:30,b:26});
+  drawAxes2(ctx,v,w,h,'T²','Λ^(2/n)');
+  clipPlot(ctx,v,w,h);
+  ctx.fillStyle=T['v2-soft']; ctx.fillRect(v.X(crit),v.Y(c),v.X(xmax)-v.X(crit),v.Y(0)-v.Y(c));
+  ctx.beginPath(); for (let a=0;a<=200;a++){ const t=xmax*a/200; a?ctx.lineTo(v.X(t),v.Y(g(t))):ctx.moveTo(v.X(t),v.Y(g(t))); } ctx.strokeStyle=T.ink; ctx.lineWidth=2.2; ctx.stroke();
+  dashed(ctx,[[v.X(crit),v.Y(0)],[v.X(crit),v.Y(c)],[v.X(0),v.Y(c)]],T.v2,1.6);
+  const tx=Math.min(T2,xmax);
+  if (T2<=xmax){ dashed(ctx,[[v.X(tx),v.Y(0)],[v.X(tx),v.Y(L2n)],[v.X(0),v.Y(L2n)]],T.acc,1.2,[3,3]); dot2(ctx,v.X(tx),v.Y(L2n),6,T.acc); }
+  else dashed(ctx,[[v.X(0),v.Y(L2n)],[v.X(xmax),v.Y(L2n)]],T.acc,1.2,[3,3]);
+  ctx.restore();
+  if (T2>xmax) label(ctx,`T² = ${fmt(T2)} →`, w-v.pad.r-6, v.Y(L2n)-12, T.acc, F.num, 'right');
+  label(ctx,`c = ${fmt(c,3)}`, v.X(0)+6, v.Y(c)+(L2n<c?-12:12), T.v2, F.num);
+  label(ctx,`T² = ${fmt(crit,2)}`, v.X(crit)+6, v.Y(0)-12, T.v2, F.num);
+  label(ctx,'reject', v.X((crit+xmax)/2), v.Y(c/2), T.v2, F.lab, 'center');
+  title(ctx,'Reject when T² > crit, i.e. when Λ^(2/n) < c');
+}
+function drawLRX(){
+  const {ctx,w,h}=prep($('#cv-lrx')), {n,p}=LR, k=(n-1)*p/(n-p), a=H.alpha;
+  set('lr-n-o', n);
+  const fu=u=>{ const e=Math.exp(u/n), t=(n-1)*(e-1); return dF(t/k,p,n-p)/k*(n-1)/n*e; };
+  const xmax=qChi(0.997,p)*1.15, cc=qChi(1-a,p), size=1-pF((n-1)*(Math.exp(cc/n)-1)/k,p,n-p);
+  const xs=[...Array(301)].map((_,i)=>Math.max(1e-4,xmax*i/300)), ye=xs.map(fu), yc=xs.map(x=>dChi(x,p));
+  const v=makeView2(w,h,0,xmax,0,Math.max(...ye,...yc)*1.12,{l:52,r:16,t:30,b:26});
+  drawAxes2(ctx,v,w,h,'−2 ln Λ','density');
+  clipPlot(ctx,v,w,h);
+  ctx.beginPath(); ctx.moveTo(v.X(cc),v.Y(0)); xs.forEach((x,i)=>{ if (x>=cc) ctx.lineTo(v.X(x),v.Y(ye[i])); }); ctx.lineTo(v.X(xmax),v.Y(0)); ctx.closePath(); ctx.fillStyle=T['v2-soft']; ctx.fill();
+  ctx.beginPath(); xs.forEach((x,i)=>i?ctx.lineTo(v.X(x),v.Y(ye[i])):ctx.moveTo(v.X(x),v.Y(ye[i]))); ctx.strokeStyle=T.acc; ctx.lineWidth=2.4; ctx.stroke();
+  dashed(ctx, xs.map((x,i)=>[v.X(x),v.Y(yc[i])]), T.ink, 1.8, [6,4]);
+  ctx.strokeStyle=T.v2; ctx.lineWidth=1.8; ctx.beginPath(); ctx.moveTo(v.X(cc),v.pad.t); ctx.lineTo(v.X(cc),v.Y(0)); ctx.stroke();
+  ctx.restore();
+  const l2=w<560?`exact tail ${fmt(100*size,1)}%`:`exact tail area ${fmt(100*size,1)}% (target ${fmt(100*a,0)}%)`;
+  ctx.font=F.num; const fl=v.X(cc)+6+ctx.measureText(l2).width>w-8, lx=v.X(cc)+(fl?-6:6), al=fl?'right':'left';
+  label(ctx,`χ²_${p}(${a}) = ${fmt(cc,2)}`, lx, v.pad.t+14, T.v2, F.num, al);
+  label(ctx, l2, lx, v.pad.t+34, T.v2, F.num, al);
+  title(ctx, w<560 ? `n = ${n}, p = ${p}: −2 ln Λ vs χ²_${p}` : `n = ${n}, p = ${p}: the χ² approximation to −2 ln Λ. Raise n and the curves merge`);
+}
+$$('[data-hset]').forEach(b=>b.addEventListener('click',()=>loadH(b.dataset.hset)));
+$$('[data-halpha]').forEach(b=>b.addEventListener('click',()=>{ setAlphaH(+b.dataset.halpha, true); hBounds(); DRAW[active](); }));
+$$('[data-hpair]').forEach(b=>b.addEventListener('click',()=>{ H.pair=b.dataset.hpair.split(',').map(Number); $$('[data-hpair]').forEach(x=>x.setAttribute('aria-pressed', x.dataset.hpair===b.dataset.hpair)); hBounds(); DRAW[active](); }));
+$('#h-reset').addEventListener('click',()=>{ const from=H.mu0.slice(), to=HSETS[H.set].mu0; tween(450,e=>{ H.mu0=from.map((x,a)=>x+(to[a]-x)*e); DRAW[active](); }); });
+$('#h-new').addEventListener('click',()=>{ H.seed++; loadH('random', true); });
+$('#h-sim').addEventListener('click',simT2);
+$('#lr-n').addEventListener('input',e=>{ LR.n=Math.max(LR.p+1,+e.target.value); drawLRX(); });
+$$('[data-lrp]').forEach(b=>b.addEventListener('click',()=>{ LR.p=+b.dataset.lrp; LR.n=Math.max(LR.n,LR.p+2); $('#lr-n').value=LR.n; $$('[data-lrp]').forEach(x=>x.setAttribute('aria-pressed',x===b)); drawLRX(); }));
+$('#lr-dev').addEventListener('change',drawLRT);
+function setMu0(o){ Object.assign(H.mu0, o); DRAW[active](); }
+[['#cv-ht','view'],['#cv-lr','lview']].forEach(([sel,key])=>{
+  const cv=$(sel);
+  const move=e=>{ const [px,py]=ptr(cv,e), v=H[key], [i,j]=H.pair, st=tickStep(v.x1-v.x0)/20, sy=tickStep(v.y1-v.y0)/20, cl=(x,a,b)=>Math.max(a,Math.min(b,x));
+    H.mu0[i]=Math.round(cl(v.iX(px),v.x0,v.x1)/st)*st; H.mu0[j]=Math.round(cl(v.iY(py),v.y0,v.y1)/sy)*sy; DRAW[active](); };
+  cv.addEventListener('pointerdown',e=>{ H.drag=true; cv.setPointerCapture(e.pointerId); move(e); });
+  cv.addEventListener('pointermove',e=>{ if (H.drag) move(e); else cv.style.cursor='crosshair'; });
+  ['pointerup','pointercancel'].forEach(t=>cv.addEventListener(t,()=>{ H.drag=false; }));
+});
+
+/* =====================================================================
    tabs, theme, resize
    ===================================================================== */
-const DRAW = { geometry:()=>{ drawGeometry(); if(cam.spin) spinLoop(); }, angle:drawAngle, sampling:renderSampling, spread:drawSpread, spectral:drawSpectral, combos:drawLin, data:drawData, distance:drawDist, linalg:drawLinalg, quadform:drawQF, affine:drawAffine, mvn:drawMVN, normality:drawNormality, boxcox:drawBoxCox };
+const DRAW = { geometry:()=>{ drawGeometry(); if(cam.spin) spinLoop(); }, angle:drawAngle, sampling:renderSampling, spread:drawSpread, spectral:drawSpectral, combos:drawLin, data:drawData, distance:drawDist, linalg:drawLinalg, quadform:drawQF, affine:drawAffine, mvn:drawMVN, normality:drawNormality, boxcox:drawBoxCox, hotelling:drawHot, lrt:drawLRT };
+/* Topic list: one entry per chapter; add a chapter by adding a row here and its panels above */
+const CHAPS = [
+  { n:1, t:'Summaries and distances', items:[['data','1.2','x̄, S and R'],['distance','1.4','Three distances']] },
+  { n:2, t:'Matrix algebra and random vectors', items:[['linalg','2.1','Vectors & matrices'],['quadform','2.2','Quadratic forms'],['spectral','2.2','Inside S'],['affine','2.3','Y = AX + b']] },
+  { n:3, t:'Sample geometry', items:[['geometry','3.1','Rows vs columns'],['angle','3.1','Correlation is an angle'],['sampling','3.2','Random sampling'],['spread','3.3','Generalized variance'],['combos','3.4','Linear combinations']] },
+  { n:4, t:'The multivariate normal', items:[['mvn','4.1','Bivariate normal'],['normality','4.4','Checking normality'],['boxcox','4.6','Box-Cox']] },
+  { n:5, t:'Inference about a mean vector', items:[['hotelling','5.1',"Hotelling's T²"],['lrt','5.2','Likelihood ratio test']] },
+];
+const ORDER = CHAPS.flatMap(c=>c.items.map(it=>({ id:it[0], sec:it[1], name:it[2], ch:c.n })));
+const esc = x => x.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+$('#toc-list').innerHTML = CHAPS.map(c=>`<div class="chap ch${c.n}" data-ch="${c.n}" data-open="false">
+  <button class="chap-h" aria-expanded="false"><span class="cn">Ch ${c.n}</span><span>${esc(c.t)}</span><span class="chev" aria-hidden="true">▸</span></button>
+  <div class="chap-items">${c.items.map(([id,sec,nm])=>`<button class="topic" id="t-${id}" data-topic="${id}" aria-controls="${id}"><span class="sec">${sec}</span><span>${esc(nm)}</span></button>`).join('')}</div></div>`).join('');
+const side=$('.side'), sideBtn=$('.side-toggle'), find=$('#toc-find');
+function openChap(el, on){ el.dataset.open=on; el.querySelector('.chap-h').setAttribute('aria-expanded', on); }
+function setMenu(on){ side.dataset.open=on; sideBtn.setAttribute('aria-expanded', on); }
+$$('.chap-h').forEach(b=>b.addEventListener('click',()=>{ const c=b.parentElement; openChap(c, c.dataset.open!=='true'); }));
+sideBtn.addEventListener('click',()=>setMenu(side.dataset.open!=='true'));
+document.addEventListener('click',e=>{ if (side.dataset.open==='true' && !side.contains(e.target)) setMenu(false); });
+document.addEventListener('keydown',e=>{ if (e.key==='Escape' && side.dataset.open==='true'){ setMenu(false); sideBtn.focus(); } });
+find.addEventListener('input',()=>{
+  const q=find.value.trim().toLowerCase();
+  $$('.chap').forEach(c=>{
+    let any=false;
+    c.querySelectorAll('.topic').forEach(t=>{ const hit=!q || t.textContent.toLowerCase().includes(q) || c.querySelector('.chap-h').textContent.toLowerCase().includes(q); t.hidden=!hit; any=any||hit; });
+    c.hidden=!any; if (q) openChap(c, any); else openChap(c, c.contains($('.topic[aria-current="page"]')));
+  });
+});
+find.addEventListener('keydown',e=>{ if (e.key==='Enter'){ const t=$$('.topic').find(x=>!x.hidden && !x.closest('.chap').hidden); if (t) t.click(); } });
+$('#toc').addEventListener('keydown',e=>{
+  if (e.key!=='ArrowDown' && e.key!=='ArrowUp') return;
+  const vis=$$('.find, .chap-h, .topic').filter(x=>x.offsetParent!==null), i=vis.indexOf(document.activeElement);
+  if (i<0) return; e.preventDefault(); vis[(i+(e.key==='ArrowDown'?1:-1)+vis.length)%vis.length].focus();
+});
 let active='data';
 function show(id){
   if (!DRAW[id]) id='data';
   active=id;
-  $$('[role=tab]').forEach(t=>t.setAttribute('aria-selected', t.getAttribute('aria-controls')===id));
-  $$('[role=tabpanel]').forEach(p=>p.hidden = p.id!==id);
+  $$('.topic').forEach(t=>{ if (t.dataset.topic===id) t.setAttribute('aria-current','page'); else t.removeAttribute('aria-current'); });
+  $$('.panel').forEach(p=>p.hidden = p.id!==id);
+  const k=ORDER.findIndex(o=>o.id===id), cur=ORDER[k];
+  $$('.chap').forEach(c=>{ if (+c.dataset.ch===cur.ch) openChap(c,true); });
+  $('#toc-cur').textContent=`${cur.sec} · ${cur.name}`;
+  const pv=ORDER[k-1], nx=ORDER[k+1];
+  $('#pager').innerHTML=(pv?`<button data-topic="${pv.id}"><span class="dir">← Previous</span>${pv.sec} · ${esc(pv.name)}</button>`:'')+(nx?`<button class="nx" data-topic="${nx.id}"><span class="dir">Next →</span>${nx.sec} · ${esc(nx.name)}</button>`:'');
   try{ localStorage.setItem('sgl-tab', id); }catch(e){}
+  if (location.hash.slice(1)!==id) history.replaceState(null,'','#'+id);
   DRAW[id]();
 }
-$$('[role=tab]').forEach(t=>t.addEventListener('click',()=>show(t.getAttribute('aria-controls'))));
-$('.tabs').addEventListener('keydown',e=>{
-  if (e.key!=='ArrowRight' && e.key!=='ArrowLeft') return;
-  const tabs=$$('[role=tab]'), i=tabs.findIndex(t=>t.getAttribute('aria-selected')==='true');
-  const nx=tabs[(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length]; nx.focus(); show(nx.getAttribute('aria-controls'));
-});
-$$('[data-goto]').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); show(a.dataset.goto); window.scrollTo({top:0}); }));
-window.addEventListener('hashchange',()=>{ const id=location.hash.slice(1); if (DRAW[id]) show(id); });
+function go(id){ show(id); setMenu(false); const top=$('.shell').getBoundingClientRect().top+window.scrollY-8; if (window.scrollY>top) window.scrollTo({top}); }
+$$('.topic').forEach(t=>t.addEventListener('click',()=>go(t.dataset.topic)));
+$('#pager').addEventListener('click',e=>{ const b=e.target.closest('[data-topic]'); if (b) go(b.dataset.topic); });
+$$('[data-goto]').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); go(a.dataset.goto); }));
+window.addEventListener('hashchange',()=>{ const id=location.hash.slice(1); if (DRAW[id] && id!==active) show(id); });
 
-readTokens(); basis(); resetSampling(); loadData('lecture'); genQ(); genB(); afDraws();
+readTokens(); basis(); resetSampling(); loadData('lecture'); genQ(); genB(); afDraws(); loadH('joint');
 setSpin(cam.spin);
 let start='data';
 try{ start = location.hash.slice(1) || localStorage.getItem('sgl-tab') || 'data'; }catch(e){}
@@ -2278,7 +2721,7 @@ new MutationObserver(redraw).observe(document.documentElement,{attributes:true,a
 let rz; new ResizeObserver(()=>{ cancelAnimationFrame(rz); rz=requestAnimationFrame(()=>DRAW[active]()); }).observe($('.wrap'));
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(()=>DRAW[active]());
 // Hooks used by the README demo recorder (harmless otherwise)
-window.SGL = { show, G, A, R3, E, SP, LC, cam, drawSample, DRAW, setSpin, D, M, N, Q, B, loadData, setM, setLam, genQ, genB, drawDist, LA, QF, AF, setQF, setAF, drawLinalg, drawMap, drawQF, drawAffine, drawMVN, drawNormality };
+window.SGL = { show, G, A, R3, E, SP, LC, cam, drawSample, DRAW, setSpin, D, M, N, Q, B, loadData, setM, setLam, genQ, genB, drawDist, LA, QF, AF, setQF, setAF, drawLinalg, drawMap, drawQF, drawAffine, drawMVN, drawNormality, H, LR, loadH, setAlphaH, setMu0, simT2, drawHot, drawLRT, drawLRX };
 })();
 </script>
 </body>

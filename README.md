@@ -1,10 +1,10 @@
 # Sample Geometry Lab
 
-An interactive companion to **MATH 4424 Multivariate Analysis, Chapters 1–4**: data summaries and distances (Ch 1), the matrix tools (Ch 2), sample geometry and random sampling (Ch 3), and the multivariate normal (Ch 4). You drag points, rotate vectors and draw random samples, and every number on the page is recomputed live from what you see.
+An interactive companion to **MATH 4424 Multivariate Analysis, Chapters 1–5**: data summaries and distances (Ch 1), the matrix tools (Ch 2), sample geometry and random sampling (Ch 3), the multivariate normal (Ch 4), and tests on a mean vector (Ch 5). You drag points, rotate vectors and draw random samples, and every number on the page is recomputed live from what you see.
 
 **▶ Live demo: https://joshrkhoo.github.io/sample-geometry-lab/**
 
-It's one HTML file with no build step and no install. Open `index.html` in a browser, or use the link above.
+It's one HTML file with no build step and no install. Open `index.html` in a browser, or use the link above. Topics are listed by chapter in the sidebar (a drop-down menu on phones), with a search box and previous/next buttons.
 
 ---
 
@@ -75,6 +75,16 @@ One observation is dragged across the cloud. Its marginal Q-Q plot still looks f
 
 ![Box-Cox demo](docs/demo-boxcox-dark.gif)
 
+### 5.1 Hotelling's T²
+μ₀ circles x̄ for a correlated sample. Inside the dashed box both t-tests accept, but the joint T² test still rejects whenever μ₀ leaves the purple ellipse. The right panel places T² on its scaled F distribution.
+
+![Hotelling's T² demo](docs/demo-hotelling-dark.gif)
+
+### 5.2 The likelihood ratio test and Wilks' Λ
+As μ₀ moves away from x̄, the spread about μ₀ (Σ̂₀) inflates relative to Σ̂, so Λ^(2/n) = |Σ̂|/|Σ̂₀| drops. Λ^(2/n) is a decreasing function of T², so both statistics give the same test.
+
+![Likelihood ratio demo](docs/demo-lrt-dark.gif)
+
 ---
 
 ## What's in each tab
@@ -95,6 +105,8 @@ One observation is dragged across the cloud. Its marginal Q-Q plot still looks f
 | **Bivariate normal** | 4.1 | Set σ₁, σ₂ and ρ and pick a 50/90/95/99% ellipse, checking coverage against 1000 simulated points. Drag the slice to see X₂ given X₁ next to the marginal |
 | **Checking normality** | 4.4–4.5 | Normal, heavy-tailed, skewed, outlier and normal-marginals-only data. You get Q-Q plots with r_Q against the Table 4.2 critical points, and a chi-square plot that flags multivariate outliers. Every point can be dragged |
 | **Box-Cox** | 4.6 | Slide λ or click the likelihood curve. You see the histogram and Q-Q plot of x^(λ), ℓ(λ) with λ̂ and an approximate 95% interval, and the radiation data plus three simulated sets with a known answer |
+| **Hotelling's T²** | 5.1 | Drag μ₀ against the T² acceptance ellipse and the box of separate t-tests. Data sets: the sweat data (Example 5.2, p = 3), Example 5.1, a joint shift that the marginal tests miss, and a random sample where H₀ is true. Choose α, see T² on its F distribution, and simulate 10,000 samples to check the size of the test |
+| **Likelihood ratio test** | 5.2 | Compare the MLE ellipses Σ̂ (about x̄) and Σ̂₀ (about μ₀), track Λ^(2/n) = (1 + T²/(n−1))⁻¹, and use n and p sliders to see how well −2 ln Λ ≈ χ²ₚ holds (Theorem 5.2) |
 
 ## Key formulas covered
 
@@ -172,6 +184,19 @@ d_j^2=(\mathbf x_j-\bar{\mathbf x})'\mathbf S^{-1}(\mathbf x_j-\bar{\mathbf x})
 ```math
 x^{(\lambda)}=\begin{cases}\dfrac{x^\lambda-1}{\lambda}&\lambda\ne0\\[4pt]\ln x&\lambda=0\end{cases}\qquad
 \ell(\lambda)=-\frac n2\ln\!\Big[\frac1n\sum_{j=1}^n\big(x_j^{(\lambda)}-\overline{x^{(\lambda)}}\big)^2\Big]+(\lambda-1)\sum_{j=1}^n\ln x_j
+```
+
+### Chapter 5: inference about a mean vector
+
+```math
+T^2=n(\bar{\mathbf x}-\boldsymbol\mu_0)'\mathbf S^{-1}(\bar{\mathbf x}-\boldsymbol\mu_0)\ \sim\ \frac{(n-1)p}{n-p}F_{p,\,n-p}\ \text{ under } H_0:\boldsymbol\mu=\boldsymbol\mu_0
+```
+
+```math
+\Lambda=\left(\frac{|\hat{\boldsymbol\Sigma}|}{|\hat{\boldsymbol\Sigma}_0|}\right)^{n/2},\qquad
+\hat{\boldsymbol\Sigma}_0=\hat{\boldsymbol\Sigma}+(\bar{\mathbf x}-\boldsymbol\mu_0)(\bar{\mathbf x}-\boldsymbol\mu_0)',\qquad
+\Lambda^{2/n}=\Big(1+\frac{T^2}{n-1}\Big)^{-1},\qquad
+-2\ln\Lambda\approx\chi^2_{\nu-\nu_0}
 ```
 
 ## Tech
